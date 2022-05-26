@@ -4,15 +4,15 @@ module id(
     input [`InstAddrBus]    pc_i,
     input [`InstBus]        inst_i,
 
-    // input reg1_data_i,
-    // input reg2_data_i,
+    input [`RegBus]         reg1_data_i,
+    input [`RegBus]         reg2_data_i,
     
     input rst,
 
     output reg [`AluOpBus]      aluop_o,
     output reg [`AluSelBus]     aluset_o,
-    // output reg reg1_o,
-    // output reg reg2_o,
+    output reg [`RegBus]        reg1_o,
+    output reg [`RegBus]        reg2_o,
     
     output reg [`RegAddrBus]    wd_o,
     output reg wreg_o,
@@ -98,5 +98,29 @@ always @(*) begin
 end
 
 
+//控制 regfile的传递
+always @(*) begin
+    if (rst == `Enable) begin
+        reg1_o <= `ZeroWord;
+    end else if (reg1_read_o == `Enable) begin
+        reg1_o <= reg1_data_i;
+    end else if (reg1_read_o == `Disable) begin
+        reg1_o <= imm;
+    end else begin
+        reg1_o <= `ZeroWord;
+    end
+end
+
+always @(*) begin
+    if (rst == `Enable) begin
+        reg2_o <= `ZeroWord;
+    end else if (reg2_read_o == `Enable) begin
+        reg2_o <= reg2_data_i;
+    end else if (reg2_read_o == `Disable) begin
+        reg2_o <= imm;
+    end else begin
+        reg2_o <= `ZeroWord;
+    end
+end
 
 endmodule
