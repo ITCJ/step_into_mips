@@ -1,0 +1,618 @@
+make all -f /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile --print-data-base --no-builtin-variables --no-builtin-rules --question
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk:5: [1;31mWarning: .config does not exists![0m
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk:6: [1;31mTo build the project, first run 'make menuconfig'.[0m
+
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk:4: /home/tcj_wsl/step_into_mips/tools/difftest.mk: No such file or directory
+make: *** No rule to make target '/home/tcj_wsl/step_into_mips/tools/difftest.mk'.  Stop.
+
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Sat Jun  4 13:13:29 2022
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 20)
+CONFIG_RT_CHECK = y
+# environment
+WSLENV = VSCODE_WSL_EXT_LOCATION/up
+# default
+.SHELLFLAGS := -c
+# environment
+VSCODE_LOG_NATIVE = false
+# environment
+MODULEPATH = /home/tcj_wsl/spack/share/spack/modules/linux-ubuntu20.04-zen2
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile', line 3)
+NEMU_HOME = $(shell pwd)
+# automatic
+@F = $(notdir $@)
+# makefile
+CURDIR := /home/tcj_wsl/step_into_mips
+# makefile
+SHELL = /bin/sh
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 9)
+Q := @
+# environment
+VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{}}
+# environment
+_ = /home/tcj_wsl/.vscode-server/bin/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1/node
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 34)
+CFLAGS = $(CFLAGS_BUILD) $(CFLAGS_TRACE) -D__GUEST_ISA__=$(GUEST_ISA)
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 24)
+SRCS-y = $(shell find $(DIRS-y) -name "*.c")
+# environment
+NVBOARD_HOME = /home/tcj_wsl/ysyx-fishing-fishing-fishing/nvboard
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile', line 1)
+MAKEFILE_LIST :=  /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf.cmd /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 1)
+COLOR_RED := [1;31m
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile', line 14)
+define git_commit
+	-@cd $(YSYX_HOME) && while (test -e .git/index.lock); do sleep 0.1; done;  `# wait for other git instances`
+	-@cd $(YSYX_HOME) && git branch $(TRACER_BRANCH) -q 2>/dev/null || true    `# create tracer branch if not existent`
+	-@cd $(YSYX_HOME) && git worktree add $(TRACER_BRANCH) -q                  `# check out tracer branch`
+	-@cd $(YSYX_HOME) && git status --untracked-files -z                       `# list changed files to copy (w/o quotes)` | tr '\000' '\n'                                           `# restore EOL sequence` | cut -c 1-3 --complement                                  `# remove status indicator` | grep -v '^$(TRACER_BRANCH)/'                             `# skip tracer worktree` | rsync -aq --files-from=- ./ $(TRACER_BRANCH)/            `# call rsync to copy files`
+	-@cd $(YSYX_HOME) && git -C $(TRACER_BRANCH) add . -A --ignore-errors      `# add changes to staging area`
+	-@cd $(YSYX_HOME) && (echo "> $(1)" && echo $(STUID) $(STUNAME) && uname -a && uptime `# generate commit msg`) | git -C $(TRACER_BRANCH) commit -F - $(GITFLAGS)          `# commit changes in tracer branch`
+	-@cd $(YSYX_HOME) && git worktree remove $(TRACER_BRANCH) -f               `# remove tracer worktree`
+	-@sync
+endef
+# 'override' directive (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk', line 13)
+ARGS = --log=$(BUILD_DIR)/nemu-log.txt $(ARGS_DIFF)
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 11)
+FIXDEP_PATH := /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/fixdep
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+ROS_ETC_DIR = /opt/ros/noetic/etc/ros
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 21)
+CONFIG_ISA64 = y
+# environment
+ROS_PACKAGE_PATH = /home/tcj_wsl/SLAM/catkin_ws/src:/opt/ros/noetic/share:/home/tcj_wsl/SLAM/ORB_SLAM3/Examples_old/ROS/ORB_SLAM3
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 16)
+CONF := /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig/build/conf
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 32)
+CFLAGS_BUILD = $(call remove_quote,$(CONFIG_CC_OPT)) $(if $(CONFIG_CC_LTO),-flto,) $(if $(CONFIG_CC_DEBUG),-Og -ggdb3,) $(if $(CONFIG_CC_ASAN),-fsanitize=address,)
+# environment
+ROS_PYTHON_VERSION = 3
+# environment
+VSCODE_CWD = /mnt/d/Microsoft VS Code
+# environment
+AM_HOME = /home/tcj_wsl/ysyx-fishing-fishing-fishing/abstract-machine
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 13)
+CONFIG_MEM_RANDOM = y
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /home/tcj_wsl/.vscode-server/bin/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1/bin/remote-cli:/opt/ros/noetic/bin:/home/tcj_wsl/spack/bin:/home/tcj_wsl/anaconda3/bin:/home/tcj_wsl/anaconda3/condabin:/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/d/vmWare/bin:/mnt/c/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0:/mnt/c/Windows/System32/OpenSSH:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/d/mathWorks/bin:/mnt/d/mingw64/mingw64/bin:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0:/mnt/c/WINDOWS/System32/OpenSSH:/mnt/d/Microsoft VS Code/bin:/mnt/d/Git/cmd:/mnt/d/xManager/Xmanager 7:/mnt/d/xManager/Xshell 7:/mnt/d/xManager/Xftp 7:/mnt/d/xManager/Xlpd 7:/mnt/d/sbt/bin:/mnt/d/xilinx/Vivado/2020.2/bin:/mnt/d/visiualStudio/VC/Tools/MSVC/14.28.29910/bin/Hostx64/x64:/mnt/c/Program Files (x86)/ZeroTier/One:/mnt/c/Program Files/usbipd-win:/mnt/c/Users/itcj/AppData/Local/Microsoft/WindowsApps:/mnt/d/Bandizip:/mnt/d/texlive/2021/bin/win32:/mnt/d/Microsoft VS Code/bin:/opt/mips-4.3/bin
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 22)
+DIRS-BLACKLIST-y = $(DIRS-BLACKLIST)
+# environment
+LSCOLORS = Gxfxcxdxbxegedabagacad
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 18)
+CONFIG_ENGINE_INTERPRETER = y
+# environment
+XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 26)
+CONFIG_CC_GCC = y
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 12)
+CONFIG_MODE_SYSTEM = y
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 28)
+CONFIG_ISA = "riscv64"
+# environment
+SPACK_PYTHON = /home/tcj_wsl/anaconda3/bin/python3
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 18)
+FILELIST_MK = $(shell find ./src -name "filelist.mk")
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 17)
+CONFIG_TIMER_GETTIMEOFDAY = y
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 23)
+CONFIG_CC = "gcc"
+# environment
+CONDA_PREFIX = /home/tcj_wsl/anaconda3
+# environment
+ASTRA_SDK_INCLUDE = /home/tcj_wsl/SLAM/AstraSDK-v2.1.3-94bca0f52e-20210611T023312Z-Linux-aarch64/install/include
+# environment
+VSCODE_LOG_STACK = false
+# environment
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-506e18bf-2c70-4aea-918a-beda599638fe.sock
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 35)
+LDFLAGS = $(CFLAGS_BUILD)
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+CMAKE_PREFIX_PATH = /home/tcj_wsl/SLAM/catkin_ws/devel:/opt/ros/noetic
+# environment
+ROS_ROOT = /opt/ros/noetic/share/ros
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 10)
+remove_quote = $(patsubst "%",%,$(1))
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+# environment
+ROS_DISTRO = noetic
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = :0
+# environment
+CONDA_EXE = /home/tcj_wsl/anaconda3/bin/conda
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 13)
+GUEST_ISA = $(call remove_quote,$(CONFIG_ISA))
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 25)
+CONFIG_TRACE_START = 0
+# environment
+VSCODE_PIPE_LOGGING = true
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk', line 17)
+NEMU_EXEC :=  --log=/nemu-log.txt  
+# environment
+PWD = /home/tcj_wsl/step_into_mips
+# environment
+SPACK_ROOT = /home/tcj_wsl/spack
+# default
+.LOADED := 
+# environment
+WSL_INTEROP = /run/WSL/11_interop
+# environment
+PKG_CONFIG_PATH = /home/tcj_wsl/SLAM/catkin_ws/devel/lib/pkgconfig:/opt/ros/noetic/lib/pkgconfig:/usr/local/lib/pkgconfig
+# environment
+PULSE_SERVER = /mnt/wslg/PulseServer
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/tcj_wsl
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 8)
+CONFIG_PC_RESET_OFFSET = 0
+# environment
+LD_LIBRARY_PATH = /home/tcj_wsl/SLAM/catkin_ws/devel/lib:/opt/ros/noetic/lib
+# environment
+LOGNAME = tcj_wsl
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+CONDA_PROMPT_MODIFIER = (base) 
+# environment
+ZSH = /home/tcj_wsl/.oh-my-zsh
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 17)
+MCONF := /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig/build/mconf
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile', line 2)
+STUNAME = 唐承捷
+# environment
+MAKELEVEL := 0
+# environment
+CONDA_DEFAULT_ENV = base
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 24)
+CONFIG_DIFFTEST_REF_PATH = "none"
+# default
+MAKE = $(MAKE_COMMAND)
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 2)
+COLOR_END := [0m
+# default
+MAKECMDGOALS := all
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 25)
+SRCS = $(filter-out $(SRCS-BLACKLIST-y),$(SRCS-y))
+# environment
+CONDA_SHLVL = 1
+# environment
+SHLVL = 0
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile', line 11)
+TRACER_BRANCH = $(TRACER)
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 28)
+CC = $(call remove_quote,$(CONFIG_CC))
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 16)
+CONFIG_MBASE = 0x80000000
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = tcj_wsl
+# makefile
+.DEFAULT_GOAL := include/config/auto.conf
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk', line 33)
+clean-tools = $(dir $(shell find ./tools -maxdepth 2 -mindepth 2 -name "Makefile"))
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 11)
+CONFIG_CC_O2 = y
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 15)
+NAME = $(GUEST_ISA)-nemu-$(ENGINE)
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile', line 1)
+STUID = ysyx_22040947
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 27)
+CONFIG_TRACE = y
+# environment
+LESS = -R
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 9)
+CONFIG_TARGET_NATIVE_ELF = y
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 33)
+CFLAGS_TRACE = -DITRACE_COND=$(if $(CONFIG_ITRACE_COND),$(call remove_quote,$(CONFIG_ITRACE_COND)),true)
+# environment
+VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/itcj/.vscode/extensions/ms-vscode-remote.remote-wsl-0.64.2
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile', line 10)
+YSYX_HOME = $(NEMU_HOME)/..
+# default
+MAKE_COMMAND := make
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 19)
+CONFIG_CC_OPT = "-O2"
+# environment
+OLDPWD = /mnt/d/Microsoft VS Code
+# environment
+ASTRA_SDK_LIB = /home/tcj_wsl/SLAM/AstraSDK-v2.1.3-94bca0f52e-20210611T023312Z-Linux-aarch64/install/lib
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 12)
+Kconfig := /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Kconfig
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk', line 16)
+IMG = 
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 14)
+silent := -s
+# environment
+PYTHONPATH = /home/tcj_wsl/SLAM/catkin_ws/devel/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
+# makefile
+MAKEFLAGS = prR
+# environment
+MFLAGS = -prR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 7)
+CONFIG_ENGINE = "interpreter"
+# environment
+ROS_VERSION = 1
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 14)
+ENGINE = $(call remove_quote,$(CONFIG_ENGINE))
+# automatic
++F = $(notdir $+)
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 22)
+CONFIG_ITRACE_COND = "true"
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 5)
+CONFIG_ISA_riscv64 = y
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 14)
+CONFIG_ITRACE = y
+# 'override' directive
+.SHELLSTATUS := 0
+# default
+MAKEFILES := 
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 23)
+SRCS-BLACKLIST-y = $(SRCS-BLACKLIST) $(shell find $(DIRS-BLACKLIST-y) -name "*.c")
+# automatic
+ 
+<F = $(notdir $<)
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 15)
+CONFIG_TRACE_END = 10000
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 29)
+CONFIG_PMEM_GARRAY = y
+# environment
+ROS_MASTER_URI = http://localhost:11311
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 6)
+CONFIG_DIFFTEST_REF_NAME = "none"
+# environment
+PAGER = less
+# environment
+LC_ALL = C
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile', line 8)
+GITFLAGS = -q --author='$(TRACER) <tracer@ysyx.org>' --no-verify --allow-empty
+# environment
+CONDA_PYTHON_EXE = /home/tcj_wsl/anaconda3/bin/python
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile', line 7)
+TRACER = tracer-ysyx2204
+# environment
+HOSTTYPE = x86_64
+# automatic
+^F = $(notdir $^)
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 18)
+FIXDEP := /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/fixdep/build/fixdep
+# default
+SUFFIXES := 
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 13)
+rm-distclean = include/generated include/config .config .config.old
+# environment
+WAYLAND_DISPLAY = wayland-0
+# environment
+_CE_M = 
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 10)
+KCONFIG_PATH := /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig
+# environment
+ROSLISP_PACKAGE_DIRECTORIES = /home/tcj_wsl/SLAM/catkin_ws/devel/share/common-lisp
+# environment
+NPC_HOME = /home/tcj_wsl/ysyx-workbench/npc
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 52)
+define call_fixdep
+	@$(FIXDEP) $(1) $(2) unused > $(1).tmp
+	@mv $(1).tmp $(1)
+endef
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf.cmd', line 1)
+deps_config := src/device/Kconfig src/memory/Kconfig /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Kconfig
+# default
+.RECIPEPREFIX := 
+# environment
+LANG = C
+# environment
+TERM = xterm-256color
+# environment
+VSCODE_EXTHOST_WILL_SEND_SOCKET = true
+# makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 10)
+CONFIG_MSIZE = 0x8000000
+# environment
+WSL_DISTRO_NAME = Ubuntu
+# environment
+_CE_CONDA = 
+# variable set hash-table stats:
+# Load=164/1024=16%, Rehash=0, Collisions=29/292=10%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+
+# No files, no impossibilities in 0 directories.
+
+# Implicit Rules
+
+%defconfig: /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig/build/conf /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/fixdep/build/fixdep
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 37):
+	$(Q)$< $(silent) --defconfig=configs/$@ $(Kconfig)
+	$(Q)$< $(silent) --syncconfig $(Kconfig)
+
+# 1 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+gdb: run-env
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk', line 26):
+	$(call git_commit, "gdb NEMU")
+	gdb -s $(BINARY) --args $(NEMU_EXEC)
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/device/Kconfig:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf.cmd', line 10):
+	
+
+.PHONY: menuconfig savedefconfig defconfig help distclean _default run gdb run-env clean-tools clean-all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+/home/tcj_wsl/step_into_mips/scripts/build.mk:
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+distclean: clean
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 48):
+	-@rm -rf $(rm-distclean)
+
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig/build/conf:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 21):
+	$(Q)$(MAKE) $(silent) -C $(KCONFIG_PATH) NAME=conf
+
+clean-tools:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile:
+#  Implicit rule search has not been done.
+#  Last modified 2022-03-20 03:16:09.50781202
+#  File has not been updated.
+
+defconfig:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+/home/tcj_wsl/step_into_mips/tools/difftest.mk:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf:
+#  Implicit rule search has not been done.
+#  Last modified 2022-03-16 21:26:22.297704456
+#  File has not been updated.
+
+# Not a target:
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf.cmd:
+#  Implicit rule search has not been done.
+#  Last modified 2022-03-16 21:26:22.297704456
+#  File has not been updated.
+
+help:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 44):
+	@echo  '  menuconfig	  - Update current config utilising a menu based program'
+	@echo  '  savedefconfig   - Save current config as configs/defconfig (minimal config)'
+
+# Not a target:
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk:
+#  Implicit rule search has not been done.
+#  Last modified 2022-03-20 03:18:05.157810335
+#  File has not been updated.
+
+# Not a target:
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile:
+#  Implicit rule search has not been done.
+#  Last modified 2022-03-16 18:27:25.460676105
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+compile_git:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk', line 7):
+	$(call git_commit, "compile NEMU")
+
+run: run-env
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk', line 22):
+	$(call git_commit, "run NEMU")
+	$(NEMU_EXEC)
+
+# Not a target:
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig/build/mconf:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 24):
+	$(Q)$(MAKE) $(silent) -C $(KCONFIG_PATH) NAME=mconf
+
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Kconfig:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf.cmd', line 10):
+	
+
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/fixdep/build/fixdep:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 27):
+	$(Q)$(MAKE) $(silent) -C $(FIXDEP_PATH)
+
+clean-all: clean distclean clean-tools
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+include/config/auto.conf: src/device/Kconfig src/memory/Kconfig /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Kconfig
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+menuconfig: /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig/build/mconf /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig/build/conf /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/fixdep/build/fixdep
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 30):
+	$(Q)$(MCONF) $(Kconfig)
+	$(Q)$(CONF) $(silent) --syncconfig $(Kconfig)
+
+src/memory/Kconfig:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf.cmd', line 10):
+	
+
+savedefconfig: /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig/build/conf
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 34):
+	$(Q)$< $(silent) --$@=configs/defconfig $(Kconfig)
+
+# Not a target:
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk:
+#  Implicit rule search has not been done.
+#  Last modified 2022-03-16 19:03:05.720642091
+ 
+#  File has not been updated.
+
+_default:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/../Makefile', line 31):
+	@echo "Please run 'make' under subprojects."
+
+code: run-env
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk', line 30):
+	$(call git_commit, "vscode debug NEMU")
+	gdb -s $(BINARY) --args $(NEMU_EXEC)
+
+run-env:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=33/1024=3%, Rehash=0, Collisions=3/81=4%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 36 / storage = 1025 B / avg = 28 B
+# current buf: size = 8162 B / used = 1025 B / count = 36 / avg = 28 B
+
+# strcache performance: lookups = 97 / hit rate = 62%
+# hash-table stats:
+# Load=36/8192=0%, Rehash=0, Collisions=2/97=2%
+# Finished Make data base on Sat Jun  4 13:13:29 2022
+
+ 

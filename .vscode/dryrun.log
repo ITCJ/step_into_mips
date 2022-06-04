@@ -1,0 +1,14 @@
+make -f /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/tcj_wsl/step_into_mips'
+make: Nothing to be done for 'include/config/auto.conf'.
+make: Leaving directory '/home/tcj_wsl/step_into_mips'
+ 
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk:5: [1;31mWarning: .config does not exists![0m
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk:6: [1;31mTo build the project, first run 'make menuconfig'.[0m
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk:4: /home/tcj_wsl/step_into_mips/tools/difftest.mk: No such file or directory
+make: *** No rule to make target '/home/tcj_wsl/step_into_mips/tools/difftest.mk'.
+/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/native.mk:2: /home/tcj_wsl/step_into_mips/scripts/build.mk: No such file or directory
+make: *** No rule to make target '/home/tcj_wsl/step_into_mips/scripts/build.mk'.
+make: Failed to remake makefile '/home/tcj_wsl/step_into_mips/tools/difftest.mk'.
+make: Failed to remake makefile '/home/tcj_wsl/step_into_mips/scripts/build.mk'.
+
