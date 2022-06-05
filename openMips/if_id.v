@@ -5,8 +5,8 @@ module if_id(
     input clk,
     input [`InstAddrBus] if_pc,
     input [`InstBus] if_inst,
-    output [`InstAddrBus] id_pc,
-    output [`InstBus] id_inst
+    output reg [`InstAddrBus] id_pc,
+    output reg [`InstBus] id_inst
 );
 
     always @(posedge clk) begin

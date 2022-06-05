@@ -25,7 +25,7 @@ module pc_reg(
 
     always @(posedge clk) begin
        if(ce == `Disable) begin
-           pc <= `ZeroWord
+           pc <= `ZeroWord;
        end else begin
            pc <= pc + 4'h4;
        end
