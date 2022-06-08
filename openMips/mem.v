@@ -3,13 +3,25 @@
 module mem(
     input rst,
 
-    input rw_i,
-    input wreg_i,
-    input wdata_i,
+    input [`RegAddrBus]     rw_i,
+    input                   wreg_i,
+    input [`RegBus]         wdata_i,
 
-    output reg rw_o,
-    output reg wreg_o,
-    output reg wdata_o
+    output reg [`RegAddrBus]    rw_o,
+    output reg                  wreg_o,
+    output reg [`RegBus]        wdata_o
 );
+
+always @(*) begin
+    if(rst == `Enable) begin
+        rw_o    <= `NOPRegAddr;
+        wreg_o  <= `Disable;
+        wdata_o <= `ZeroWord;
+    end else begin
+        rw_o    <= rw_i;
+        wreg_o  <= wreg_i;
+        wdata_o <= wdata_i;
+    end
+end
 
 endmodule
