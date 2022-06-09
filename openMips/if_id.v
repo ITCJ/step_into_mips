@@ -10,7 +10,7 @@ module if_id(
 );
 
     always @(posedge clk) begin
-        if (`Enable) begin
+        if (rst == `Enable) begin
             id_pc <= `ZeroWord;
             id_inst <= `ZeroWord;
         end else begin
