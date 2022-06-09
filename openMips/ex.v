@@ -24,7 +24,7 @@ always @(*) begin
         result <= `ZeroWord;
     end else begin
         case (aluop_i)
-            `EXE_ORI: begin
+            `EXE_OR_OP: begin
                 result <= rdata1 | rdata2;
             end
             default: begin
