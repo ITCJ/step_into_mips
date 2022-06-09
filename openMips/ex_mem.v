@@ -13,7 +13,7 @@ module ex_mem(
     output reg [`RegBus]        mem_wdata
 );
 
-always @(*) begin
+always @(posedge clk) begin
     if(rst == `Enable)  begin
         mem_rw      <=  `NOPRegAddr;
         mem_wreg    <=  `Disable;
