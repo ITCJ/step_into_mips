@@ -7,20 +7,20 @@ module id(
     input [`RegBus]         reg1_data_i,
     input [`RegBus]         reg2_data_i,
     
-    input rst,
+    input                       rst,
 
     output reg [`AluOpBus]      aluop_o,
-    output reg [`AluSelBus]     aluset_o,
+    output reg [`AluSelBus]     alusel_o,
     output reg [`RegBus]        reg1_o,
     output reg [`RegBus]        reg2_o,
     
     output reg [`RegAddrBus]    wd_o,
-    output reg wreg_o,
+    output reg                  wreg_o, //we
 
     output reg [`RegAddrBus]    reg2_addr_o,
-    output reg reg2_read_o,
+    output reg                  reg2_read_o,
     output reg [`RegAddrBus]    reg1_addr_o,
-    output reg reg1_read_o
+    output reg                  reg1_read_o
 );
 
 //对输入的指令分段
@@ -45,7 +45,7 @@ reg instvalid;
 always @(*) begin
     if (rst == `Enable) begin
         aluop_o     <= `EXE_NOP_OP;
-        aluset_o    <= `EXE_RES_NOP;
+        alusel_o    <= `EXE_RES_NOP;
 
         wd_o        <= `NOPRegAddr;
         wreg_o      <= `Disable;
@@ -62,7 +62,7 @@ always @(*) begin
         //初始化状态，可以避免没用的端口出现错误内容。综合在电路上是二级mux
         //以往这部分内容我写在case中，第一个分支之前
         aluop_o     <= `EXE_NOP_OP;
-        aluset_o    <= `EXE_RES_NOP;
+        alusel_o    <= `EXE_RES_NOP;
 
         wd_o        <= `NOPRegAddr;
         wreg_o      <= `Disable;
@@ -79,7 +79,7 @@ always @(*) begin
         case (op)
             `EXE_ORI: begin
                 aluop_o     <= `EXE_OR_OP;
-                aluset_o    <= `EXE_RES_NOP;
+                alusel_o    <= `EXE_RES_NOP;
 
                 wd_o        <= rt;
                 wreg_o      <= `Enable;
