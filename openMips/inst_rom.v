@@ -11,7 +11,7 @@ module inst_rom(
 
 	reg[`InstBus]  inst_mem[0:`InstMemNum-1];
 
-	initial $readmemh ( "inst_rom.data", inst_mem );
+	initial $readmemh ( "E:/FPGAproject/step_into_mips/openMips/inst_rom.data", inst_mem );
 
 	always @ (*) begin
 		if (ce == `Disable) begin
