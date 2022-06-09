@@ -3,9 +3,9 @@ module top(
     input clk, rst
 );
 
-    wire rom_data_i;
-    wire rom_ce_o;
-    wire rom_addr_o;
+    wire [`InstBus]         rom_data_i;
+    wire                    rom_ce_o;
+    wire [`InstAddrBus]     rom_addr_o;
     cpu cpu0(
         .rst(rst), .clk(clk),
 

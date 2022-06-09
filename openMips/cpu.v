@@ -6,8 +6,8 @@ module cpu(
 
     input [`RegBus]         rom_data_i,
 
-    output reg              rom_ce_o,
-    output reg [`RegBus]    rom_addr_o
+    output               rom_ce_o,
+    output [`RegBus]     rom_addr_o
 );
     //TODO ---------- IF
     wire [`RegBus]      pc_if;
@@ -19,11 +19,11 @@ module cpu(
     );
 
     //需要例化rom IP用于输入指令进行测试
-    assign rom_data_i = pc_if;
+    assign rom_addr_o = pc_if;
 
     //TODO ---------- IF/ID
-    wire id_pc_i;
-    wire id_inst_i;
+    wire [`InstAddrBus]     id_pc_i;
+    wire [`InstBus]         id_inst_i;
     if_id if_id0(
         .clk(clk),
         .rst(rst),
@@ -53,11 +53,16 @@ module cpu(
     
     wire [`RegBus]          id_reg1_o;
     wire [`RegBus]          id_reg2_o;
+
+    wire [`RegAddrBus]  wb_rw_o;
+    wire                wb_wreg_o;
+    wire [`RegBus]      wb_wdata_o;
+
     id id0(
         .rst(rst),
 
         .pc_i(id_pc_i),
-        .ins_i(id_inst_i),
+        .inst_i(id_inst_i),
 
         //regfile
         .reg1_data_i(rdata1),
@@ -88,9 +93,9 @@ module cpu(
         .rdata2(rdata2),
         .r2e(reg2_read),
 
-        .rw(),
-        .wdata(),
-        .we(),
+        .rw(wb_rw_o),
+        .wdata(wb_wdata_o),
+        .we(wb_wreg_o),
 
         .rst(rst),
         .clk(clk)
