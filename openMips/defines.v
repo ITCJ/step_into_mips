@@ -24,7 +24,7 @@
 `define InstAddrBus     31:0
 `define InstBus         31:0
 
-`define InstMemNum      128 * 1024 - 1
+`define InstMemNum      8 * 16 * 1024 - 1
 `define InstMemNumLog2  17
 
 //----------regfile
