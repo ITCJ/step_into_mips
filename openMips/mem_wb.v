@@ -20,7 +20,7 @@ always @(posedge clk) begin
     end else begin
         rw_o        <= rw_i;
         wreg_o      <= wreg_i;
-        wdata_o     <= wdata_o;
+        wdata_o     <= wdata_i;
     end
 end
 
