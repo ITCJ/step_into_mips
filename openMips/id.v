@@ -78,8 +78,8 @@ always @(*) begin
 
         case (op)
             `EXE_ORI: begin
-                aluop_o     <= `EXE_RES_LOGIC;
-                alusel_o    <= `EXE_RES_NOP;
+                aluop_o     <= `EXE_OR_OP;
+                alusel_o    <= `EXE_RES_LOGIC;
 
                 wd_o        <= rt;
                 wreg_o      <= `Enable;
