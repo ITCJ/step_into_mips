@@ -38,11 +38,12 @@ module id(
 wire [5:0] op   =   inst_i[31:26];
 wire [4:0] rs   =   inst_i[25:21];
 wire [4:0] rt   =   inst_i[20:16];
+wire [4:0] rd   =   inst_i[15:11];
 
 //R
-// wire [4:0] op3   =   inst_i[15:11];
-// wire [4:0] op4   =   inst_i[10:6];
-// wire [5:0] op5   =   inst_i[5:0];
+wire [4:0] op2   =   inst_i[10:6];
+wire [5:0] op3   =   inst_i[5:0];
+wire [4:0] op4   =   inst_i[20:16];
 
 //I
 wire [15:0] imm_i   =   inst_i[15:0];
@@ -75,7 +76,7 @@ always @(*) begin
         aluop_o     <= `EXE_NOP_OP;
         alusel_o    <= `EXE_RES_NOP;
 
-        wd_o        <= `NOPRegAddr;
+        wd_o        <= rd;
         wreg_o      <= `Disable;
 
         instvalid   <= `Disable;
@@ -88,6 +89,31 @@ always @(*) begin
         imm         <= `ZeroWord;
 
         case (op)
+            `EXE_SPECIAL_INST: begin
+                case (op2)
+                    5'b0_0000: begin
+                        case (op3)
+                            `EXE_AND: begin
+                                aluop_o     <= `EXE_AND_OP;
+                                alusel_o    <= `EXE_RES_LOGIC;
+
+                                wreg_o      <= `Enable;
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid   <= `Enable;
+                            end 
+                            default: begin
+                                
+                            end
+                        endcase
+                    end 
+                    default:  begin
+                        
+                    end
+                endcase
+            end
+
             `EXE_ORI: begin
                 aluop_o     <= `EXE_OR_OP;
                 alusel_o    <= `EXE_RES_LOGIC;
