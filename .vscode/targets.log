@@ -12,7 +12,7 @@ make: *** No rule to make target '/home/tcj_wsl/step_into_mips/tools/difftest.mk
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jun  4 13:13:29 2022
+# Make data base, printed on Sat Jun 11 16:23:40 2022
 
 # Variables
 
@@ -98,7 +98,7 @@ CONFIG_MEM_RANDOM = y
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/tcj_wsl/.vscode-server/bin/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1/bin/remote-cli:/opt/ros/noetic/bin:/home/tcj_wsl/spack/bin:/home/tcj_wsl/anaconda3/bin:/home/tcj_wsl/anaconda3/condabin:/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/d/vmWare/bin:/mnt/c/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0:/mnt/c/Windows/System32/OpenSSH:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/d/mathWorks/bin:/mnt/d/mingw64/mingw64/bin:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0:/mnt/c/WINDOWS/System32/OpenSSH:/mnt/d/Microsoft VS Code/bin:/mnt/d/Git/cmd:/mnt/d/xManager/Xmanager 7:/mnt/d/xManager/Xshell 7:/mnt/d/xManager/Xftp 7:/mnt/d/xManager/Xlpd 7:/mnt/d/sbt/bin:/mnt/d/xilinx/Vivado/2020.2/bin:/mnt/d/visiualStudio/VC/Tools/MSVC/14.28.29910/bin/Hostx64/x64:/mnt/c/Program Files (x86)/ZeroTier/One:/mnt/c/Program Files/usbipd-win:/mnt/c/Users/itcj/AppData/Local/Microsoft/WindowsApps:/mnt/d/Bandizip:/mnt/d/texlive/2021/bin/win32:/mnt/d/Microsoft VS Code/bin:/opt/mips-4.3/bin
+PATH = /home/tcj_wsl/.vscode-server/bin/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1/bin/remote-cli:/opt/ros/noetic/bin:/home/tcj_wsl/spack/bin:/home/tcj_wsl/anaconda3/bin:/home/tcj_wsl/anaconda3/condabin:/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/d/vmWare/bin:/mnt/c/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0:/mnt/c/Windows/System32/OpenSSH:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/d/mathWorks/bin:/mnt/d/mingw64/mingw64/bin:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0:/mnt/c/WINDOWS/System32/OpenSSH:/mnt/d/Microsoft VS Code/bin:/mnt/d/Git/cmd:/mnt/d/xManager/Xmanager 7:/mnt/d/xManager/Xshell 7:/mnt/d/xManager/Xftp 7:/mnt/d/xManager/Xlpd 7:/mnt/d/sbt/bin:/mnt/d/visiualStudio/VC/Tools/MSVC/14.28.29910/bin/Hostx64/x64:/mnt/c/Program Files (x86)/ZeroTier/One:/mnt/c/Program Files/usbipd-win:/mnt/d/Vivado/2022.1/bin:/mnt/c/Users/itcj/AppData/Local/Microsoft/WindowsApps:/mnt/d/Bandizip:/mnt/d/texlive/2021/bin/win32:/mnt/d/Microsoft VS Code/bin:/opt/mips-4.3/bin
 # makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 22)
 DIRS-BLACKLIST-y = $(DIRS-BLACKLIST)
 # environment
@@ -128,7 +128,7 @@ ASTRA_SDK_INCLUDE = /home/tcj_wsl/SLAM/AstraSDK-v2.1.3-94bca0f52e-20210611T02331
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-506e18bf-2c70-4aea-918a-beda599638fe.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-4a1587e4-25ce-4f55-a157-77ed82e108ba.sock
 # makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 35)
 LDFLAGS = $(CFLAGS_BUILD)
 # default
@@ -180,7 +180,7 @@ LD_LIBRARY_PATH = /home/tcj_wsl/SLAM/catkin_ws/devel/lib:/opt/ros/noetic/lib
 # environment
 LOGNAME = tcj_wsl
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 CONDA_PROMPT_MODIFIER = (base) 
 # environment
@@ -285,6 +285,7 @@ ENGINE = $(call remove_quote,$(CONFIG_ENGINE))
 CONFIG_ITRACE_COND = "true"
 # makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 5)
 CONFIG_ISA_riscv64 = y
+ 
 # makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 14)
 CONFIG_ITRACE = y
 # 'override' directive
@@ -294,7 +295,6 @@ MAKEFILES :=
 # makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 23)
 SRCS-BLACKLIST-y = $(SRCS-BLACKLIST) $(shell find $(DIRS-BLACKLIST-y) -name "*.c")
 # automatic
- 
 <F = $(notdir $<)
 # makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/include/config/auto.conf', line 15)
 CONFIG_TRACE_END = 10000
@@ -566,6 +566,7 @@ savedefconfig: /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig/bui
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
+ 
 #  File has not been updated.
 #  recipe to execute (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk', line 34):
 	$(Q)$< $(silent) --$@=configs/defconfig $(Kconfig)
@@ -574,7 +575,6 @@ savedefconfig: /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/tools/kconfig/bui
 /home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/scripts/config.mk:
 #  Implicit rule search has not been done.
 #  Last modified 2022-03-16 19:03:05.720642091
- 
 #  File has not been updated.
 
 _default:
@@ -613,6 +613,6 @@ run-env:
 # strcache performance: lookups = 97 / hit rate = 62%
 # hash-table stats:
 # Load=36/8192=0%, Rehash=0, Collisions=2/97=2%
-# Finished Make data base on Sat Jun  4 13:13:29 2022
+# Finished Make data base on Sat Jun 11 16:23:40 2022
 
  
