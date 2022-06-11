@@ -102,6 +102,8 @@ module cpu(
     );
 
     //TODO ---------- ID/EX
+    wire [`InstAddrBus]     ex_pc_i;
+
     wire [`AluOpBus]    ex_aluop_i;
     wire [`AluSelBus]   ex_alusel_i;
     wire [`RegBus]      ex_rdata1_i;
@@ -111,6 +113,7 @@ module cpu(
 
     id_ex id_ex0(
         .rst(rst),  .clk(clk),
+        .pc_i(id_pc_i),
 
         .id_aluop(id_aluop_o),
         .id_alusel(id_alusel_o),
@@ -119,6 +122,7 @@ module cpu(
         .id_rw(id_wd_o),
         .id_wreg(id_wreg_o),
         
+        .pc_o(ex_pc_i),
         .ex_aluop(ex_aluop_i),
         .ex_alusel(ex_alusel_i),
         .ex_rdata1(ex_rdata1_i),
@@ -148,6 +152,7 @@ module cpu(
     );
 
     //TODO ---------- EX/MEM
+    wire [`InstAddrBus] mem_pc_i;
     wire [`RegAddrBus]  mem_rw_i;
     wire                mem_wreg_i;
     wire [`RegBus]      mem_wdata_i;
@@ -155,10 +160,12 @@ module cpu(
         .rst(rst),
         .clk(clk),
 
+        .pc_i(ex_pc_i),
         .ex_rw(ex_rw_o),
         .ex_wreg(ex_wreg_o),
         .ex_wdata(ex_wdata_o),
 
+        .pc_o(mem_pc_i),
         .mem_rw(mem_rw_i),
         .mem_wreg(mem_wreg_i),
         .mem_wdata(mem_wdata_i)
@@ -181,12 +188,16 @@ module cpu(
     );
 
     //TODO ---------- MEM/WB
+    wire [`InstAddrBus] wb_pc_i;
     mem_wb  mem_wb0(
         .clk(clk), .rst(rst),
+        
+        .pc_i(mem_pc_i),
         .rw_i(mem_rw_i),
         .wreg_i(mem_wreg_i),
         .wdata_i(mem_wdata_i),
 
+        .pc_o(wb_pc_i),
         .rw_o(wb_rw_o),
         .wreg_o(wb_wreg_o),
         .wdata_o(wb_wdata_o)

@@ -2,6 +2,8 @@
 
 module id_ex(
     input rst, clk,
+
+    input [`InstAddrBus]pc_i,
     input [`AluOpBus]   id_aluop,
     input [`AluSelBus]  id_alusel,
     
@@ -12,6 +14,7 @@ module id_ex(
 
     // ----------
     
+    output reg [`InstAddrBus]pc_o,               
     output reg [`AluOpBus]   ex_aluop,
     output reg [`AluSelBus]  ex_alusel,
     
@@ -24,6 +27,7 @@ module id_ex(
 
     always @(posedge clk) begin
         if(rst == `Enable) begin
+            pc_o        <=  `ZeroWord;
             ex_aluop    <=  `EXE_NOP_OP;
             ex_alusel   <=  `EXE_RES_NOP;
             ex_rdata1   <=  `ZeroWord;
@@ -31,6 +35,7 @@ module id_ex(
             ex_rw       <=  `ZeroWord;
             ex_wreg     <=  `Disable;
         end else begin
+            pc_o        <=  pc_i;
             ex_aluop    <=  id_aluop;
             ex_alusel   <=  id_alusel;
             ex_rdata1   <=  id_rdata1;
