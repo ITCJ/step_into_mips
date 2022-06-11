@@ -4,36 +4,17 @@ module cpu(
     input clk,
     input rst,
 
-    input [`RegBus]         rom_data_i,
+    input [`RegBus]      rom_data_i,
 
     output               rom_ce_o,
     output [`RegBus]     rom_addr_o
 );
     //TODO ---------- IF
     wire [`RegBus]      pc_if;
-    pc_reg pc0(
-        .clk(clk),
-        .rst(rst),
-        .pc(pc_if),
-        .ce(rom_ce_o)
-    );
-
-    //需要例化rom IP用于输入指令进行测试
-    assign rom_addr_o = pc_if;
 
     //TODO ---------- IF/ID
     wire [`InstAddrBus]     id_pc_i;
     wire [`InstBus]         id_inst_i;
-    if_id if_id0(
-        .clk(clk),
-        .rst(rst),
-
-        .if_pc(pc_if),
-        .if_inst(rom_data_i),
-
-        .id_pc(id_pc_i),
-        .id_inst(id_inst_i)
-    );
 
     //TODO ---------- ID
 
@@ -58,6 +39,57 @@ module cpu(
     wire                wb_wreg_o;
     wire [`RegBus]      wb_wdata_o;
 
+    //TODO ---------- ID/EX
+    wire [`InstAddrBus]     ex_pc_i;
+
+    wire [`AluOpBus]    ex_aluop_i;
+    wire [`AluSelBus]   ex_alusel_i;
+    wire [`RegBus]      ex_rdata1_i;
+    wire [`RegBus]      ex_rdata2_i;
+    wire [`RegAddrBus]  ex_rw_i;
+    wire                ex_wreg_i;
+
+    //TODO ---------- EX
+    wire [`RegAddrBus]  ex_rw_o;
+    wire                ex_wreg_o;
+    wire [`RegBus]      ex_wdata_o;
+
+    //TODO ---------- EX/MEM
+    wire [`InstAddrBus] mem_pc_i;
+    wire [`RegAddrBus]  mem_rw_i;
+    wire                mem_wreg_i;
+    wire [`RegBus]      mem_wdata_i;
+
+    //TODO ---------- MEM
+    wire [`RegAddrBus]  mem_rw_o;
+    wire                mem_wreg_o;
+    wire [`RegBus]      mem_wdata_o;
+
+    //TODO ---------- MEM/WB
+    wire [`InstAddrBus] wb_pc_i;
+
+
+    pc_reg pc0(
+        .clk(clk),
+        .rst(rst),
+        .pc(pc_if),
+        .ce(rom_ce_o)
+    );
+
+    //需要例化rom IP用于输入指令进行测试
+    assign rom_addr_o = pc_if;
+
+    if_id if_id0(
+        .clk(clk),
+        .rst(rst),
+
+        .if_pc(pc_if),
+        .if_inst(rom_data_i),
+
+        .id_pc(id_pc_i),
+        .id_inst(id_inst_i)
+    );
+
     id id0(
         .rst(rst),
 
@@ -81,7 +113,15 @@ module cpu(
         .wreg_o(id_wreg_o),
         
         .reg1_o(id_reg1_o),
-        .reg2_o(id_reg2_o)
+        .reg2_o(id_reg2_o),
+
+        // 冒险处理
+        .ex_wreg_i(ex_wreg_i),
+        .ex_wd_i(ex_rw_i),
+        .ex_wdata_i(ex_wdata_o),
+        .mem_wreg_i(mem_wreg_i),
+        .mem_wd_i(mem_rw_i),
+        .mem_wdata_i(mem_wdata_i)
     );
 
     regfile regfile0(
@@ -100,16 +140,6 @@ module cpu(
         .rst(rst),
         .clk(clk)
     );
-
-    //TODO ---------- ID/EX
-    wire [`InstAddrBus]     ex_pc_i;
-
-    wire [`AluOpBus]    ex_aluop_i;
-    wire [`AluSelBus]   ex_alusel_i;
-    wire [`RegBus]      ex_rdata1_i;
-    wire [`RegBus]      ex_rdata2_i;
-    wire [`RegAddrBus]  ex_rw_i;
-    wire                ex_wreg_i;
 
     id_ex id_ex0(
         .rst(rst),  .clk(clk),
@@ -131,11 +161,6 @@ module cpu(
         .ex_wreg(ex_wreg_i)
     );
 
-    //TODO ---------- EX
-    wire [`RegAddrBus]  ex_rw_o;
-    wire                ex_wreg_o;
-    wire [`RegBus]      ex_wdata_o;
-
     ex ex0(
         .rst(rst),
 
@@ -151,11 +176,6 @@ module cpu(
         .wdata_o(ex_wdata_o)
     );
 
-    //TODO ---------- EX/MEM
-    wire [`InstAddrBus] mem_pc_i;
-    wire [`RegAddrBus]  mem_rw_i;
-    wire                mem_wreg_i;
-    wire [`RegBus]      mem_wdata_i;
     ex_mem ex_mem0(
         .rst(rst),
         .clk(clk),
@@ -171,10 +191,7 @@ module cpu(
         .mem_wdata(mem_wdata_i)
     );
 
-    //TODO ---------- MEM
-    wire [`RegAddrBus]  mem_rw_o;
-    wire                mem_wreg_o;
-    wire [`RegBus]      mem_wdata_o;
+
     mem mem0(
         .rst(rst),
 
@@ -187,8 +204,6 @@ module cpu(
         .wdata_o(mem_wdata_o)
     );
 
-    //TODO ---------- MEM/WB
-    wire [`InstAddrBus] wb_pc_i;
     mem_wb  mem_wb0(
         .clk(clk), .rst(rst),
         

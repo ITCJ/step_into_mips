@@ -33,7 +33,7 @@ module regfile(
             rdata1 <= `ZeroWord;
         end else if (r1 == `RegNumLog2'b0)  begin //读取0寄存器
             rdata1 <= `ZeroWord;
-        end else if ((r1 == rw) && (we == `Enable) 
+        end else if ((r1 == rw) && (we == `Enable) //解决 wb - id冲突
                         && (r1e == `Enable)) begin    //寄存器移动操作
             rdata1 <= wdata;
         end else if (r1e == `Enable) begin  //读取地址内容
@@ -59,7 +59,6 @@ module regfile(
         end else begin  //额外情况防止锁存器
             rdata2 <= `ZeroWord;
         end
-
     end
 
 endmodule

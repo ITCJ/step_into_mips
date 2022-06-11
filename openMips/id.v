@@ -1,14 +1,25 @@
 `include "defines.v"
 
 module id(
+    input                   rst,
+    // ----------
+
     input [`InstAddrBus]    pc_i,
     input [`InstBus]        inst_i,
-
     input [`RegBus]         reg1_data_i,
     input [`RegBus]         reg2_data_i,
     
-    input                       rst,
+    // ---------- ex mem段写入寄存器信息
 
+    input                   ex_wreg_i,
+    input [`RegAddrBus]     ex_wd_i,
+    input [`RegBus]         ex_wdata_i,
+
+    input                   mem_wreg_i,
+    input [`RegAddrBus]     mem_wd_i,
+    input [`RegBus]         mem_wdata_i,
+
+    // ---------- 
     output reg [`AluOpBus]      aluop_o,
     output reg [`AluSelBus]     alusel_o,
     output reg [`RegBus]        reg1_o,
@@ -102,6 +113,16 @@ end
 always @(*) begin
     if (rst == `Enable) begin
         reg1_o <= `ZeroWord;
+    end else if ( (ex_wreg_i   == `Enable) &&   // 存在写入
+                  (reg1_read_o == `Enable) &&   // 存在读取
+                  (reg1_addr_o == ex_wd_i)      // 写入地址相同
+                ) begin                         // ex 段 bypass
+        reg1_o <= ex_wdata_i;
+    end else if ( (mem_wreg_i  == `Enable) &&   // 存在写入
+                  (reg1_read_o == `Enable) &&   // 存在读取
+                  (reg1_addr_o == mem_wd_i)      // 写入地址相同
+                ) begin                         // mem 段 bypass
+        reg1_o <= mem_wdata_i;
     end else if (reg1_read_o == `Enable) begin
         reg1_o <= reg1_data_i;
     end else if (reg1_read_o == `Disable) begin
@@ -114,6 +135,16 @@ end
 always @(*) begin
     if (rst == `Enable) begin
         reg2_o <= `ZeroWord;
+    end else if ( (ex_wreg_i   == `Enable) &&   // 存在写入
+                  (reg2_read_o == `Enable) &&   // 存在读取
+                  (reg2_addr_o == ex_wd_i)      // 写入地址相同
+                ) begin                         // ex 段 bypass
+        reg2_o <= ex_wdata_i;
+    end else if ( (mem_wreg_i  == `Enable) &&   // 存在写入
+                  (reg2_read_o == `Enable) &&   // 存在读取
+                  (reg2_addr_o == mem_wd_i)      // 写入地址相同
+                ) begin                         // mem 段 bypass
+        reg2_o <= mem_wdata_i;
     end else if (reg2_read_o == `Enable) begin
         reg2_o <= reg2_data_i;
     end else if (reg2_read_o == `Disable) begin
