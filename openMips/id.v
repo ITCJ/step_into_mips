@@ -240,7 +240,7 @@ always @(*) begin
             end
 
             `EXE_LUI: begin
-                aluop_o     <= `EXE_LUI_OP;
+                aluop_o     <= `EXE_OR_OP;
                 alusel_o    <= `EXE_RES_LOGIC;
 
                 wd_o        <= rt;
