@@ -284,7 +284,7 @@ always @(*) begin
                 reg1_read_o <= `Disable;
                 reg2_read_o <= `Enable;
 
-                imm         <= op2;
+                imm[4:0]         <= op2;
 
                 instvalid   <= `Enable;
             end else if (op3 == `EXE_SRL) begin
@@ -297,7 +297,7 @@ always @(*) begin
                 reg1_read_o <= `Disable;
                 reg2_read_o <= `Enable;
 
-                imm         <= op2;
+                imm[4:0]         <= op2;
 
                 instvalid   <= `Enable;
             end else if (op3 == `EXE_SRA) begin
@@ -310,7 +310,7 @@ always @(*) begin
                 reg1_read_o <= `Disable;
                 reg2_read_o <= `Enable;
 
-                imm         <= op2;
+                imm[4:0]         <= op2;
 
                 instvalid   <= `Enable;
             end

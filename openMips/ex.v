@@ -58,7 +58,7 @@ always @(*) begin
             end 
 
             `EXE_SRL_OP:    begin
-                shiftResult <= rdata2 >> rdata2[4:0];
+                shiftResult <= rdata2 >> rdata1[4:0];
             end
 
             `EXE_SRA_OP:    begin
@@ -83,7 +83,7 @@ always @(*) begin
             wdata_o <= logicResult;
         end
 
-        `EXE_RES_LOGIC: begin
+        `EXE_RES_SHIFT: begin
             wdata_o <= shiftResult;
         end
 
