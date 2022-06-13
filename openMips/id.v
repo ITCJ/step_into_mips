@@ -89,6 +89,7 @@ always @(*) begin
         imm         <= `ZeroWord;
 
         case (op)
+            // TODO special 指令
             `EXE_SPECIAL_INST: begin
                 case (op2)
                     5'b0_0000: begin
@@ -102,7 +103,96 @@ always @(*) begin
                                 reg2_read_o <= `Enable;
 
                                 instvalid   <= `Enable;
-                            end 
+                            end
+
+                            `EXE_OR: begin
+                                aluop_o     <= `EXE_OR_OP;
+                                alusel_o    <= `EXE_RES_LOGIC;
+                                
+                                wreg_o      <= `Enable;
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid   <= `Enable;
+                            end
+
+                            `EXE_XOR: begin
+                                aluop_o     <= `EXE_XOR_OP;
+                                alusel_o    <= `EXE_RES_LOGIC;
+                                
+                                wreg_o      <= `Enable;
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid   <= `Enable;
+                            end
+
+                            `EXE_NOR: begin
+                                aluop_o     <= `EXE_NOR_OP;
+                                alusel_o    <= `EXE_RES_LOGIC;
+                                
+                                wreg_o      <= `Enable;
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid   <= `Enable;
+                            end
+                            
+                            `EXE_SLLV: begin
+                                aluop_o     <= `EXE_SLL_OP;
+                                alusel_o    <= `EXE_RES_SHIFT;
+                                
+                                wreg_o      <= `Enable;
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid   <= `Enable;
+                            end
+
+                            `EXE_SRLV: begin
+                                aluop_o     <= `EXE_SRL_OP;
+                                alusel_o    <= `EXE_RES_SHIFT;
+                                
+                                wreg_o      <= `Enable;
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid   <= `Enable;
+                            end
+
+                            `EXE_SRAV: begin
+                                aluop_o     <= `EXE_SRA_OP;
+                                alusel_o    <= `EXE_RES_SHIFT;
+                                
+                                wreg_o      <= `Enable;
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid   <= `Enable;
+                            end
+                            
+                            `EXE_SRAV: begin
+                                aluop_o     <= `EXE_SRA_OP;
+                                alusel_o    <= `EXE_RES_SHIFT;
+                                
+                                wreg_o      <= `Enable;
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid   <= `Enable;
+                            end
+
+                            `EXE_SYNC: begin
+                                aluop_o     <= `EXE_NOP_OP;
+                                alusel_o    <= `EXE_RES_NOP;
+
+                                wreg_o      <= `Disable;
+                                reg1_read_o <= 1'b0;
+                                reg2_read_o <= 1'b1;
+
+                                instvalid   <= `Enable;
+                            end
+
                             default: begin
                                 
                             end
@@ -113,7 +203,8 @@ always @(*) begin
                     end
                 endcase
             end
-
+            
+            // TODO op 指令 
             `EXE_ORI: begin
                 aluop_o     <= `EXE_OR_OP;
                 alusel_o    <= `EXE_RES_LOGIC;
@@ -128,9 +219,113 @@ always @(*) begin
 
                 imm         <= {16'h0, imm_i};
             end
+            
+            `EXE_ANDI: begin
+                aluop_o     <= `EXE_AND_OP;
+                alusel_o    <= `EXE_RES_LOGIC;
+
+                wd_o        <= rt;
+                wreg_o      <= `Enable;
+
+                reg1_read_o <= `Enable;
+                reg2_read_o <= `Disable;
+
+                imm         <= {16'h0, imm_i};
+
+                instvalid   <= `Enable;
+            end
+
+            `EXE_XORI: begin
+                aluop_o     <= `EXE_XOR_OP;
+                alusel_o    <= `EXE_RES_LOGIC;
+
+                wd_o        <= rt;
+                wreg_o      <= `Enable;
+
+                reg1_read_o <= `Enable;
+                reg2_read_o <= `Disable;
+
+                imm         <= {16'h0, imm_i};
+
+                instvalid   <= `Enable;
+            end
+
+            `EXE_LUI: begin
+                aluop_o     <= `EXE_LUI_OP;
+                alusel_o    <= `EXE_RES_LOGIC;
+
+                wd_o        <= rt;
+                wreg_o      <= `Enable;
+
+                reg1_read_o <= `Enable;
+                reg2_read_o <= `Disable;
+
+                imm         <= {imm_i, 16'h0};
+
+                instvalid   <= `Enable;
+            end
+            
+            `EXE_PREF: begin
+                aluop_o     <= `EXE_NOP_OP;
+                alusel_o    <= `EXE_RES_NOP;
+
+                wd_o        <= rt;
+                wreg_o      <= `Disable;
+
+                reg1_read_o <= `Disable;
+                reg2_read_o <= `Disable;
+
+                // imm         <= {imm_i, 16'h0};
+
+                instvalid   <= `Enable;
+            end
+
             default: 
                 instvalid   <= `Disable;
         endcase
+
+        if (inst_i[31:21] == 11'b00000000000) begin
+            if(op3 == `EXE_SLL) begin
+                aluop_o     <= `EXE_SLL_OP;
+                alusel_o    <= `EXE_RES_SHIFT;
+
+                wd_o        <= rd;
+                wreg_o      <= `Enable;
+
+                reg1_read_o <= `Disable;
+                reg2_read_o <= `Enable;
+
+                imm         <= op2;
+
+                instvalid   <= `Enable;
+            end else if (op3 == `EXE_SRL) begin
+                aluop_o     <= `EXE_SRL_OP;
+                alusel_o    <= `EXE_RES_SHIFT;
+
+                wd_o        <= rd;
+                wreg_o      <= `Enable;
+
+                reg1_read_o <= `Disable;
+                reg2_read_o <= `Enable;
+
+                imm         <= op2;
+
+                instvalid   <= `Enable;
+            end else if (op3 == `EXE_SRA) begin
+                aluop_o     <= `EXE_SRA_OP;
+                alusel_o    <= `EXE_RES_SHIFT;
+
+                wd_o        <= rd;
+                wreg_o      <= `Enable;
+
+                reg1_read_o <= `Disable;
+                reg2_read_o <= `Enable;
+
+                imm         <= op2;
+
+                instvalid   <= `Enable;
+            end
+        end
     end
 end
 
