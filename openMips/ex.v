@@ -16,19 +16,58 @@ module ex(
     output reg [`RegBus]        wdata_o
 );
 
-reg [`RegBus]   result;
+reg [`RegBus]   logicResult;
+reg [`RegBus]   shiftResult;
 
 //---------- calculate
 always @(*) begin
     if(rst == `Enable) begin
-        result <= `ZeroWord;
+        logicResult <= `ZeroWord;
     end else begin
         case (aluop_i)
             `EXE_OR_OP: begin
-                result <= rdata1 | rdata2;
+                logicResult <= rdata1 | rdata2;
             end
+
+            `EXE_AND_OP: begin
+                logicResult <= rdata1 & rdata2;
+            end
+
+            `EXE_NOR_OP: begin
+                logicResult <= ~(rdata1 | rdata2);
+            end
+
+            `EXE_XOR_OP: begin
+                logicResult <= rdata1 ^ rdata2;
+            end
+
             default: begin
-                result <= `ZeroWord;
+                logicResult <= `ZeroWord;
+            end
+        endcase
+    end
+end
+
+always @(*) begin
+    if(rst == `Enable) begin
+        shiftResult <= `ZeroWord;
+    end else begin
+        case (aluop_i)
+            `EXE_SLL_OP: begin
+                shiftResult <= rdata2 << rdata1[4:0];
+            end 
+
+            `EXE_SRL_OP:    begin
+                shiftResult <= rdata2 >> rdata2[4:0];
+            end
+
+            `EXE_SRA_OP:    begin
+                shiftResult <= ({32{rdata2[31]}} << (6'd32-{1'b0,rdata1[4:0]}))
+                                | rdata2 >> rdata1[4:0];
+            end
+
+            default: begin
+                shiftResult <= `ZeroWord;
             end
         endcase
     end
@@ -41,8 +80,13 @@ always @(*) begin
     
     case (alusel_i)
         `EXE_RES_LOGIC: begin
-            wdata_o <= result;
+            wdata_o <= logicResult;
         end
+
+        `EXE_RES_LOGIC: begin
+            wdata_o <= shiftResult;
+        end
+
         default: begin
             wdata_o <= `ZeroWord;
         end

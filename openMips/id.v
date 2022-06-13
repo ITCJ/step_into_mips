@@ -159,17 +159,6 @@ always @(*) begin
 
                                 instvalid   <= `Enable;
                             end
-
-                            `EXE_SRAV: begin
-                                aluop_o     <= `EXE_SRA_OP;
-                                alusel_o    <= `EXE_RES_SHIFT;
-                                
-                                wreg_o      <= `Enable;
-                                reg1_read_o <= `Enable;
-                                reg2_read_o <= `Enable;
-
-                                instvalid   <= `Enable;
-                            end
                             
                             `EXE_SRAV: begin
                                 aluop_o     <= `EXE_SRA_OP;
