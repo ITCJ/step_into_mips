@@ -12,7 +12,16 @@ module ex_mem(
     output reg [`InstAddrBus]   pc_o, 
     output reg [`RegAddrBus]    mem_rw,
     output reg                  mem_wreg,
-    output reg [`RegBus]        mem_wdata
+    output reg [`RegBus]        mem_wdata,
+
+    //------ hilo 
+    input           ex_whilo,
+    input [`RegBus] ex_hi,
+    input [`RegBus] ex_lo,
+
+    output reg              mem_whilo,
+    output reg [`RegBus]    mem_hi,
+    output reg [`RegBus]    mem_lo
 );
 
 always @(posedge clk) begin
@@ -21,11 +30,19 @@ always @(posedge clk) begin
         mem_rw      <=  `NOPRegAddr;
         mem_wreg    <=  `Disable;
         mem_wdata   <=  `ZeroWord;
+
+        mem_whilo   <=  `Disable;
+        mem_hi      <=  `ZeroWord;
+        mem_lo      <=  `ZeroWord;
     end else begin
         pc_o        <= pc_i;
         mem_rw      <= ex_rw;
         mem_wreg    <= ex_wreg;
         mem_wdata   <= ex_wdata;
+
+        mem_whilo   <=  ex_whilo;
+        mem_hi      <=  ex_hi;
+        mem_lo      <=  ex_lo;
     end
 end
 
