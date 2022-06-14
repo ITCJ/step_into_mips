@@ -278,8 +278,93 @@ always @(*) begin
 
                                 instvalid   <= `Enable;
                             end
-                            
-                            default: begin
+
+                            `EXE_SLT: begin
+                                aluop_o <= `EXE_SLT_OP;
+                                alusel_o <= `EXE_RES_ARITHMETIC;
+
+                                wreg_o <= `Enable;
+
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+                                                          
+                                instvalid <= `Enable;
+                            end
+                            `EXE_SLTU: begin
+                                aluop_o <= `EXE_SLTU_OP;
+                                alusel_o <= `EXE_RES_ARITHMETIC;
+
+                                wreg_o <= `Enable;
+
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid <= `Enable;	
+                            end
+
+                            `EXE_ADD: begin
+                                aluop_o <= `EXE_ADD_OP;
+                                alusel_o <= `EXE_RES_ARITHMETIC;
+                                
+                                wreg_o <= `Enable;
+                                
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid <= `Enable;	
+                            end
+
+                            `EXE_ADDU: begin
+                                wreg_o <= `Enable;
+                                aluop_o <= `EXE_ADDU_OP;
+                                alusel_o <= `EXE_RES_ARITHMETIC;
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+                                instvalid <= `Enable;	
+                            end
+                            `EXE_SUB: begin
+                                aluop_o <= `EXE_SUB_OP;
+                                alusel_o <= `EXE_RES_ARITHMETIC;
+
+                                wreg_o <= `Enable;
+
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid <= `Enable;	
+                            end
+                            `EXE_SUBU: begin
+                                aluop_o <= `EXE_SUBU_OP;
+                                alusel_o <= `EXE_RES_ARITHMETIC;
+
+                                wreg_o <= `Enable;
+                                
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid <= `Enable;	
+                            end
+                            `EXE_MULT: begin
+                                wreg_o <= `Disable;
+                                
+                                aluop_o <= `EXE_MULT_OP;
+
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid <= `Enable;	
+                            end
+                            `EXE_MULTU: begin
+                                aluop_o <= `EXE_MULTU_OP;
+                                
+                                wreg_o <= `Disable;
+
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                instvalid <= `Enable;	
+                            end
+                        default: begin
                                 
                             end
                         endcase
