@@ -419,7 +419,6 @@ always @(*) begin
                 endcase      //EXE_SPECIAL_INST2 case
             end
 
-
             // TODO op 指令 
             `EXE_ORI: begin
                 aluop_o     <= `EXE_OR_OP;
@@ -496,7 +495,58 @@ always @(*) begin
                 instvalid   <= `Enable;
             end
 
-            
+            `EXE_SLTI:   begin
+                aluop_o <= `EXE_SLT_OP;
+                alusel_o <= `EXE_RES_ARITHMETIC;
+
+                wreg_o <= `Enable;
+                wd_o <= inst_i[20:16];     
+
+                reg1_read_o <= `Enable; 
+                reg2_read_o <= `Disable;    
+                
+                imm <= {{16{inst_i[15]}}, inst_i[15:0]};
+                instvalid <= `Enable; 
+            end
+            `EXE_SLTIU:   begin
+                aluop_o <= `EXE_SLTU_OP;
+                alusel_o <= `EXE_RES_ARITHMETIC;
+
+                wreg_o <= `Enable;
+                wd_o <= inst_i[20:16];     
+
+                reg1_read_o <= `Enable; 
+                reg2_read_o <= `Disable;    
+                
+                imm <= {{16{inst_i[15]}}, inst_i[15:0]};
+                instvalid <= `Enable; 
+            end
+            `EXE_ADDI:   begin
+                aluop_o <= `EXE_ADDI_OP;
+                alusel_o <= `EXE_RES_ARITHMETIC;
+                
+                wreg_o <= `Enable;
+                wd_o <= inst_i[20:16];     
+                
+                reg1_read_o <= `Enable; 
+                reg2_read_o <= `Disable;    
+                
+                imm <= {{16{inst_i[15]}}, inst_i[15:0]};
+                instvalid <= `Enable; 
+            end
+            `EXE_ADDIU:   begin
+                aluop_o <= `EXE_ADDIU_OP;
+                alusel_o <= `EXE_RES_ARITHMETIC;
+                
+                wreg_o <= `Enable;
+                wd_o <= inst_i[20:16];
+
+                reg1_read_o <= `Enable; 
+                reg2_read_o <= `Disable;
+                
+                imm <= {{16{inst_i[15]}}, inst_i[15:0]};
+                instvalid <= `Enable;	
+            end
 
             default: 
                 instvalid   <= `Disable;
