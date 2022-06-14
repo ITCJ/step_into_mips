@@ -146,7 +146,7 @@ module ex(
 			                   (reg1_i[31] && reg2_i[31] && result_sum[31]))
 			                   :	(reg1_i < reg2_i);
   
-  assign reg1_i_not = ~reg1_i;
+  	assign reg1_i_not = ~reg1_i;
 							
 	always @ (*) begin
 		if(rst == `RstEnable) begin
