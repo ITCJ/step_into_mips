@@ -164,20 +164,27 @@ module cpu(
     // ---------- hilo
 	wire[`RegBus] 	hi;
 	wire[`RegBus]   lo;
+	
+    wire[`RegBus] ex_hi_o;
+	wire[`RegBus] ex_lo_o;
 
-    wire [`RegBus]  wb_hi_o;
-    wire [`RegBus]  wb_lo_o;
-    wire            mem_whilo_i;
+    wire            mem_whilo_o;
     wire [`RegBus]  mem_hi_i;
     wire [`RegBus]  mem_lo_i;
     
-    wire            wb_whilo_i;
+    wire            ex_whilo_o;
     wire [`RegBus]  wb_hi_i;
     wire [`RegBus]  wb_lo_i;
     
     wire            whilo_o;
     wire [`RegBus]  hi_o;
     wire [`RegBus]  lo_o;
+
+    wire            mem_whilo_i;
+	wire[`RegBus]   mem_hi_o;
+	wire[`RegBus]   mem_lo_o;    
+
+    wire            wb_whilo_i;
 
     ex ex0(
         .rst(rst),
@@ -268,12 +275,12 @@ module cpu(
         .wdata_o(wb_wdata_o),
         
         //hilo
-		.mem_hi(mem_hi_o),
-		.mem_lo(mem_lo_o),
-		.mem_whilo(mem_whilo_o),
-		.wb_hi(wb_hi_i),
-		.wb_lo(wb_lo_i),
-		.wb_whilo(wb_whilo_i)	
+		.hi_i(mem_hi_o),
+		.lo_i(mem_lo_o),
+		.whilo_i(mem_whilo_o),
+		.hi_o(wb_hi_i),
+		.lo_o(wb_lo_i),
+		.whilo_o(wb_whilo_i)	
     );
 
     hilo_reg hilo_reg0(

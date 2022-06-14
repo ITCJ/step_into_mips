@@ -181,7 +181,104 @@ always @(*) begin
 
                                 instvalid   <= `Enable;
                             end
+                            `EXE_MFHI: begin
+                                aluop_o     <= `EXE_MFHI_OP;
+                                alusel_o    <= `EXE_RES_MOVE;
 
+                                // wd_o        <= rt;
+                                wreg_o      <= `Enable;
+
+                                reg1_read_o <= `Disable;
+                                reg2_read_o <= `Disable;
+
+                                // imm         <= {16'h0, imm_i};
+
+                                instvalid   <= `Enable;
+                            end
+
+                            `EXE_MFLO: begin
+                                aluop_o     <= `EXE_MFLO_OP;
+                                alusel_o    <= `EXE_RES_MOVE;
+
+                                // wd_o        <= rt;
+                                wreg_o      <= `Enable;
+
+                                reg1_read_o <= `Disable;
+                                reg2_read_o <= `Disable;
+
+                                // imm         <= {16'h0, imm_i};
+
+                                instvalid   <= `Enable;
+                            end
+
+                            `EXE_MTHI: begin
+                                aluop_o     <= `EXE_MTHI_OP;
+                                alusel_o    <= `EXE_RES_MOVE;
+
+                                // wd_o        <= rt;
+                                // wreg_o      <= `Disable;
+
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Disable;
+
+                                // imm         <= {16'h0, imm_i};
+
+                                instvalid   <= `Enable;
+                            end
+
+                            `EXE_MTLO: begin
+                                aluop_o     <= `EXE_MTLO_OP;
+                                alusel_o    <= `EXE_RES_MOVE;
+
+                                // wd_o        <= rt;
+                                // wreg_o      <= `Disable;
+
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Disable;
+
+                                // imm         <= {16'h0, imm_i};
+
+                                instvalid   <= `Enable;
+                            end
+
+                            `EXE_MOVN: begin
+                                aluop_o     <= `EXE_MOVN_OP;
+                                alusel_o    <= `EXE_RES_MOVE;
+
+                                // wd_o        <= rt;
+                                if (reg2_o != `ZeroWord) begin
+                                    wreg_o <= `Enable;
+                                end else begin
+                                    wreg_o <= `Disable;
+                                end
+
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                // imm         <= {16'h0, imm_i};
+
+                                instvalid   <= `Enable;
+                            end
+
+                            `EXE_MOVZ: begin
+                                aluop_o     <= `EXE_MOVZ_OP;
+                                alusel_o    <= `EXE_RES_MOVE;
+
+                                // wd_o        <= rt;
+                                if (reg2_o == `ZeroWord) begin
+                                    wreg_o <= `Enable;
+                                end else begin
+                                    wreg_o <= `Disable;
+                                end
+
+                                reg1_read_o <= `Enable;
+                                reg2_read_o <= `Enable;
+
+                                // imm         <= {16'h0, imm_i};
+
+                                instvalid   <= `Enable;
+                            end
+                            
                             default: begin
                                 
                             end
@@ -269,103 +366,7 @@ always @(*) begin
                 instvalid   <= `Enable;
             end
 
-            `EXE_MFHI: begin
-                aluop_o     <= `EXE_MFHI_OP;
-                alusel_o    <= `EXE_RES_MOVE;
-
-                // wd_o        <= rt;
-                wreg_o      <= `Enable;
-
-                reg1_read_o <= `Disable;
-                reg2_read_o <= `Disable;
-
-                // imm         <= {16'h0, imm_i};
-
-                instvalid   <= `Enable;
-            end
-
-            `EXE_MFLO: begin
-                aluop_o     <= `EXE_MFLO_OP;
-                alusel_o    <= `EXE_RES_MOVE;
-
-                // wd_o        <= rt;
-                wreg_o      <= `Enable;
-
-                reg1_read_o <= `Disable;
-                reg2_read_o <= `Disable;
-
-                // imm         <= {16'h0, imm_i};
-
-                instvalid   <= `Enable;
-            end
-
-            `EXE_MTHI: begin
-                aluop_o     <= `EXE_MTHI_OP;
-                alusel_o    <= `EXE_RES_MOVE;
-
-                // wd_o        <= rt;
-                // wreg_o      <= `Disable;
-
-                reg1_read_o <= `Enable;
-                reg2_read_o <= `Disable;
-
-                // imm         <= {16'h0, imm_i};
-
-                instvalid   <= `Enable;
-            end
-
-            `EXE_MTLO: begin
-                aluop_o     <= `EXE_MTLO_OP;
-                alusel_o    <= `EXE_RES_MOVE;
-
-                // wd_o        <= rt;
-                // wreg_o      <= `Disable;
-
-                reg1_read_o <= `Enable;
-                reg2_read_o <= `Disable;
-
-                // imm         <= {16'h0, imm_i};
-
-                instvalid   <= `Enable;
-            end
-
-            `EXE_MOVN: begin
-                aluop_o     <= `EXE_MOVN_OP;
-                alusel_o    <= `EXE_RES_MOVE;
-
-                // wd_o        <= rt;
-                if (reg2_o != `ZeroWord) begin
-                    wreg_o <= `Enable;
-                end else begin
-                    wreg_o <= `Disable;
-                end
-
-                reg1_read_o <= `Enable;
-                reg2_read_o <= `Enable;
-
-                // imm         <= {16'h0, imm_i};
-
-                instvalid   <= `Enable;
-            end
-
-            `EXE_MOVZ: begin
-                aluop_o     <= `EXE_MOVZ_OP;
-                alusel_o    <= `EXE_RES_MOVE;
-
-                // wd_o        <= rt;
-                if (reg2_o != `ZeroWord) begin
-                    wreg_o <= `Enable;
-                end else begin
-                    wreg_o <= `Disable;
-                end
-
-                reg1_read_o <= `Enable;
-                reg2_read_o <= `Enable;
-
-                // imm         <= {16'h0, imm_i};
-
-                instvalid   <= `Enable;
-            end
+            
 
             default: 
                 instvalid   <= `Disable;
