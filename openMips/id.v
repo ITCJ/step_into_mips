@@ -287,7 +287,7 @@ always @(*) begin
 
                                 reg1_read_o <= `Enable;
                                 reg2_read_o <= `Enable;
-                                                          
+
                                 instvalid <= `Enable;
                             end
                             `EXE_SLTU: begin
@@ -299,7 +299,7 @@ always @(*) begin
                                 reg1_read_o <= `Enable;
                                 reg2_read_o <= `Enable;
 
-                                instvalid <= `Enable;	
+                                instvalid <= `Enable; 
                             end
 
                             `EXE_ADD: begin
@@ -374,7 +374,52 @@ always @(*) begin
                     end
                 endcase
             end
-            
+
+            //TODO special2
+            `EXE_SPECIAL2_INST: begin
+                case ( op3 )
+                    `EXE_CLZ:		begin
+                        aluop_o <= `EXE_CLZ_OP;
+                        alusel_o <= `EXE_RES_ARITHMETIC;
+
+                        wreg_o <= `Enable;
+
+                        reg1_read_o <= `Enable;
+                        reg2_read_o <= 1'b0;
+
+                        instvalid <= `Enable; 
+                    end
+
+                    `EXE_CLO:   begin
+                        aluop_o <= `EXE_CLO_OP;
+                        alusel_o <= `EXE_RES_ARITHMETIC;
+                        
+                        wreg_o <= `Enable;
+                        
+                        reg1_read_o <= `Enable; 
+                        reg2_read_o <= `Disable;
+                        
+                        instvalid <= `Enable; 
+                    end
+
+                    `EXE_MUL:   begin
+                        aluop_o <= `EXE_MUL_OP;
+                        alusel_o <= `EXE_RES_MUL;
+
+                        wreg_o <= `Enable;
+
+                        reg1_read_o <= `Enable; 
+                        reg2_read_o <= `Enable;
+
+                        instvalid <= `Enable;      
+                    end
+                    
+                    default: begin
+                    end
+                endcase      //EXE_SPECIAL_INST2 case
+            end
+
+
             // TODO op 指令 
             `EXE_ORI: begin
                 aluop_o     <= `EXE_OR_OP;
