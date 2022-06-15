@@ -5,15 +5,12 @@ module pc_reg(
     input clk,
 
     output reg [`InstAddrBus] pc,
-    output reg ce
+    output reg ce,
+
+    // -- STALL
+    input stall
     );
 
-    // always @(posedge clk) begin
-    //     if(rst == `Disable)
-    //         pc <= pc + 4'h4;
-    //     else
-    //         pc <= `ZeroWord;
-    // end
 
     always @(posedge clk) begin
         if (rst == `Enable) begin
@@ -26,6 +23,8 @@ module pc_reg(
     always @(posedge clk) begin
        if(ce == `Disable) begin
            pc <= `ZeroWord;
+       end else if(stall == `Enable) begin
+           pc <= pc;
        end else begin
            pc <= pc + 4'h4;
        end
