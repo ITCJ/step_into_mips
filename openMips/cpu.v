@@ -116,7 +116,7 @@ module cpu(
         .reg2_o(id_reg2_o),
 
         // 冒险处理
-        .ex_wreg_i(ex_wreg_i),
+        .ex_wreg_i(ex_wreg_o),
         .ex_wd_i(ex_rw_i),
         .ex_wdata_i(ex_wdata_o),
         .mem_wreg_i(mem_wreg_i),

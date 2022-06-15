@@ -126,3 +126,7 @@
 `define RegNum              32
 `define RegNumLog2          5
 `define NOPRegAddr          5'b0_0000
+
+//---------- 流水线暂停控制
+`define STOP        1'b1
+`define CONTINUE    1'b0

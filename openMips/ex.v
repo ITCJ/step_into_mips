@@ -61,7 +61,9 @@ assign rdata2_mux = ((aluop_i == `EXE_SUB_OP) ||
 
 assign result_sum = rdata1 + rdata2_mux;
 
+//      溢出判断        正 + 正 && 结果 负
 assign ov_sum = ((!rdata1[31] && !rdata2_mux[31]) && result_sum[31]) ||
+//                  负              负                  结果正
                  ((rdata1[31] && rdata2_mux[31]) && (!result_sum[31]));  
 
 //          larger than     r1 r2       进行比较
@@ -297,8 +299,14 @@ end
 //---------- result select
 always @(*) begin
     rw_o <= rw_i;
-    wreg_o <= wreg_i;
-    
+
+    if(((aluop_i == `EXE_ADD_OP) || (aluop_i == `EXE_ADDI_OP) || 
+        (aluop_i == `EXE_SUB_OP)) && (ov_sum == 1'b1)) begin
+        wreg_o <= `Disable;
+    end else begin
+        wreg_o <= wreg_i;
+    end
+
     case (alusel_i)
         `EXE_RES_LOGIC: begin
             wdata_o <= logicResult;
