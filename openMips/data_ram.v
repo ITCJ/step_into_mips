@@ -12,14 +12,14 @@ output reg[`RegBus]	data_o
 
 );
 
-reg[7:0]  data_mem0 [0:131070];
-reg[7:0]  data_mem1 [0:131070];
-reg[7:0]  data_mem2 [0:131070];
-reg[7:0]  data_mem3 [0:131070];
+reg[7:0]  data_mem0 [0:128];
+reg[7:0]  data_mem1 [0:128];
+reg[7:0]  data_mem2 [0:128];
+reg[7:0]  data_mem3 [0:128];
 
 always @ (posedge clk) begin
 if (ce == `Disable) begin
-//data_o <= ZeroWord;
+  data_o <= `ZeroWord;
 end else if(we == `Enable) begin
   if (sel[3] == 1'b1) begin
       data_mem3[addr[17+1:2]] <= data_i[31:24];
@@ -38,8 +38,8 @@ end
 
 always @ (*) begin
 if (ce == `Disable) begin
-data_o <= `ZeroWord;
-  end else if(we == `Disable) begin
+    data_o <= `ZeroWord;
+end else if(we == `Disable) begin
     data_o <= {data_mem3[addr[17+1:2]],
                data_mem2[addr[17+1:2]],
                data_mem1[addr[17+1:2]],

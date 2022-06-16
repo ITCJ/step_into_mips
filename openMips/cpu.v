@@ -15,7 +15,7 @@ module cpu(
 	output [`RegBus]           ram_data_o,
 	output                     ram_we_o,
 	output [3:0]               ram_sel_o,
-	output [3:0]               ram_ce_o
+	output                     ram_ce_o
 );
     //TODO ---------- IF
     wire [`RegBus]      pc_if;
@@ -102,7 +102,7 @@ module cpu(
 	wire[`RegBus] ex_reg1_o;
 	wire[`RegBus] ex_reg2_o;
     wire[`AluOpBus] mem_aluop_i;
-	wire[`RegBus] mem_mem_addr_i;
+	wire[`RegBus] mem_addr_i;
 	wire[`RegBus] mem_reg1_i;
 	wire[`RegBus] mem_reg2_i;
 
@@ -179,7 +179,6 @@ module cpu(
         .is_in_delayslot_o(id_is_in_delayslot_o),
 
         //ram
-        .ex_aluop_i(ex_aluop_o),
         .inst_o(id_inst_o)
     );
 
@@ -331,7 +330,7 @@ module cpu(
 		.ex_mem_addr(ex_mem_addr_o),
 		.ex_reg2(ex_reg2_o),
         .mem_aluop(mem_aluop_i),
-		.mem_mem_addr(mem_mem_addr_i),
+		.mem_addr(mem_addr_i),
 		.mem_reg2(mem_reg2_i)
     );
 
@@ -358,7 +357,7 @@ module cpu(
         
         //ram
         .aluop_i(mem_aluop_i),
-		.mem_addr_i(mem_mem_addr_i),
+		.mem_addr_i(mem_addr_i),
 		.reg2_i(mem_reg2_i),
 
         .mem_data_i(ram_data_i),
