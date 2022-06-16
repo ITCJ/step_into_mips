@@ -8,8 +8,6 @@
 `define Valid       1'b0
 `define InValid     1'b1
 
-`define Branch      1'b1
-
 
 //TODO 指令功能码
 `define EXE_AND     6'b100100
@@ -136,6 +134,7 @@
 `define EXE_RES_MOVE        3'b011	
 `define EXE_RES_ARITHMETIC  3'b100	
 `define EXE_RES_MUL         3'b101
+`define EXE_RES_JUMP_BRANCH 3'b110
 
 `define EXE_RES_NOP         3'b000
 
