@@ -73,13 +73,29 @@ module cpu(
     wire stall_from_id;
     wire stall_from_ex;
 
+
+    //TODO ----------- jump
+    wire            id_is_in_delayslot_o;
+    wire [`RegBus]  id_link_address_o;
+    wire            ex_is_in_delayslot_i;  
+    wire [`RegBus]  ex_link_address_i;
+
+    wire            is_in_delayslot_i;
+    wire            is_in_delayslot_o;
+    wire            next_inst_in_delayslot_o;
+    wire            id_branch_flag_o;
+    wire [`RegBus]  branch_target_address;
+
     pc_reg pc0(
         .clk(clk),
         .rst(rst),
         .pc(pc_if),
         .ce(rom_ce_o),
 
-        .stall(stallSig)
+        .stall(stallSig),
+
+        .branch_flag_i(id_branch_flag_o),
+        .branch_target_address_i(branch_target_address)
     );
 
     //需要例化rom IP用于输入指令进行测试
@@ -131,7 +147,16 @@ module cpu(
         .mem_wd_i(mem_rw_i),
         .mem_wdata_i(mem_wdata_i),
 
-        .stall(stall_from_id)
+        .stall(stall_from_id),
+
+        // jump
+        .is_in_delayslot_i(is_in_delayslot_i),
+         .next_inst_in_delayslot_o(next_inst_in_delayslot_o),    
+        .branch_flag_o(id_branch_flag_o),
+        .branch_target_address_o(branch_target_address),       
+        .link_addr_o(id_link_address_o),
+        
+        .is_in_delayslot_o(id_is_in_delayslot_o)     
     );
 
     regfile regfile0(
@@ -170,15 +195,23 @@ module cpu(
         .ex_rw(ex_rw_i),
         .ex_wreg(ex_wreg_i),
 
-        .stall(stallSig)
+        .stall(stallSig),
+
+        // jump
+        .id_link_address(id_link_address_o),
+        .id_is_in_delayslot(id_is_in_delayslot_o),
+        .next_inst_in_delayslot_i(next_inst_in_delayslot_o),
+        .ex_link_address(ex_link_address_i),
+          .ex_is_in_delayslot(ex_is_in_delayslot_i),
+        .is_in_delayslot_o(is_in_delayslot_i)
     );
 
     // ---------- hilo
-	wire[`RegBus] 	hi;
-	wire[`RegBus]   lo;
-	
+    wire[`RegBus]   hi;
+    wire[`RegBus]   lo;
+        
     wire[`RegBus] ex_hi_o;
-	wire[`RegBus] ex_lo_o;
+    wire[`RegBus] ex_lo_o;
 
     wire            mem_whilo_o;
     wire [`RegBus]  mem_hi_i;
@@ -193,8 +226,8 @@ module cpu(
     wire [`RegBus]  lo_o;
 
     wire            mem_whilo_i;
-	wire[`RegBus]   mem_hi_o;
-	wire[`RegBus]   mem_lo_o;    
+    wire[`RegBus]   mem_hi_o;
+    wire[`RegBus]   mem_lo_o;    
 
     wire            wb_whilo_i;
 
@@ -226,7 +259,11 @@ module cpu(
         .hi_o(ex_hi_o),
         .lo_o(ex_lo_o),
 
-        .stall(stall_from_ex)
+        .stall(stall_from_ex),
+
+        //jump
+        .link_address_i(ex_link_address_i),
+        .is_in_delayslot_i(ex_is_in_delayslot_i)
     );
 
     ex_mem ex_mem0(
@@ -244,13 +281,13 @@ module cpu(
         .mem_wdata(mem_wdata_i),
 
         // hilo
-        .ex_whilo(ex_whilo_o),		
-		.ex_hi(ex_hi_o),
-		.ex_lo(ex_lo_o),
+        .ex_whilo(ex_whilo_o),      
+        .ex_hi(ex_hi_o),
+        .ex_lo(ex_lo_o),
 
-		.mem_hi(mem_hi_i),
-		.mem_lo(mem_lo_i),
-		.mem_whilo(mem_whilo_i),
+        .mem_hi(mem_hi_i),
+        .mem_lo(mem_lo_i),
+        .mem_whilo(mem_whilo_i),
         
         .stall(stallSig)
     );
@@ -268,13 +305,13 @@ module cpu(
         .wdata_o(mem_wdata_o),
 
         // hilo
-		.hi_i(mem_hi_i),
-		.lo_i(mem_lo_i),
-		.whilo_i(mem_whilo_i),
+        .hi_i(mem_hi_i),
+        .lo_i(mem_lo_i),
+        .whilo_i(mem_whilo_i),
 
-		.hi_o(mem_hi_o),
-		.lo_o(mem_lo_o),
-		.whilo_o(mem_whilo_o)
+        .hi_o(mem_hi_o),
+        .lo_o(mem_lo_o),
+        .whilo_o(mem_whilo_o)
     );
 
     mem_wb  mem_wb0(
@@ -291,14 +328,14 @@ module cpu(
         .wdata_o(wb_wdata_o),
         
         //hilo
-		.hi_i(mem_hi_o),
-		.lo_i(mem_lo_o),
-		.whilo_i(mem_whilo_o),
-		.hi_o(wb_hi_i),
-		.lo_o(wb_lo_i),
-		.whilo_o(wb_whilo_i),
+        .hi_i(mem_hi_o),
+        .lo_i(mem_lo_o),
+        .whilo_i(mem_whilo_o),
+        .hi_o(wb_hi_i),
+        .lo_o(wb_lo_i),
+        .whilo_o(wb_whilo_i),
 
-        .stall(stallSig)	
+        .stall(stallSig)    
     );
 
     hilo_reg hilo_reg0(

@@ -31,7 +31,12 @@ module ex(
     output reg [`RegBus]         hi_o,
     output reg [`RegBus]         lo_o,
 
-    output                      stall
+    output                      stall,
+
+    //---------- jump
+    input wire[`RegBus]           link_address_i,
+    input wire                    is_in_delayslot_i
+
 );
 
 assign stall = `Disable;
@@ -337,6 +342,10 @@ always @(*) begin
         `EXE_RES_MUL:  begin
             wdata_o <= mulResult[31:0];
         end
+        
+        `EXE_RES_JUMP_BRANCH:   begin
+            wdata_o <= link_address_i;
+        end 
 
         default: begin
             wdata_o <= `ZeroWord;

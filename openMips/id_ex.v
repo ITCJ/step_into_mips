@@ -23,7 +23,19 @@ module id_ex(
     output reg [`RegAddrBus] ex_rw,
     output reg               ex_wreg,
 
-    input [5:0] stall
+    // ----------
+
+    input [5:0] stall,
+
+    // ---------- jump
+    input               id_is_in_delayslot,
+    input [`RegBus]     id_link_address,
+    input               next_inst_in_delayslot_i,
+
+    output reg              ex_is_in_delayslot,
+    output reg [`RegBus]    ex_link_address,
+    output reg              is_in_delayslot_o
+
 
 );
 
@@ -36,6 +48,10 @@ module id_ex(
             ex_rdata2   <=  `ZeroWord;
             ex_rw       <=  `ZeroWord;
             ex_wreg     <=  `Disable;
+            
+            ex_link_address     <= `ZeroWord;
+            ex_is_in_delayslot  <= `Disable;
+            is_in_delayslot_o   <= `Disable;    
         end else if(stall[2] == `Enable && stall[3] == `Disable) begin
             pc_o        <=  `ZeroWord;
             ex_aluop    <=  `EXE_NOP_OP;
@@ -44,6 +60,8 @@ module id_ex(
             ex_rdata2   <=  `ZeroWord;
             ex_rw       <=  `ZeroWord;
             ex_wreg     <=  `Disable;
+            ex_link_address     <= `ZeroWord;
+            ex_is_in_delayslot  <= `Disable;
         end else if(stall[2] == `Disable) begin
             pc_o        <=  pc_i;
             ex_aluop    <=  id_aluop;
@@ -52,6 +70,9 @@ module id_ex(
             ex_rdata2   <=  id_rdata2;
             ex_rw       <=  id_rw;
             ex_wreg     <=  id_wreg;
+            ex_link_address     <= id_link_address;
+            ex_is_in_delayslot  <= id_is_in_delayslot;
+            is_in_delayslot_o   <= next_inst_in_delayslot_i;    
         end
     end
 
