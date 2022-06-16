@@ -35,8 +35,13 @@ module ex(
 
     //---------- jump
     input wire[`RegBus]           link_address_i,
-    input wire                    is_in_delayslot_i
+    input wire                    is_in_delayslot_i,
 
+    //----------- lw/sw
+    input [`RegBus]         inst_i,
+    output [`AluOpBus]  aluop_o,
+    output [`RegBus]    mem_addr_o,
+    output [`RegBus]    reg2_o
 );
 
 assign stall = `Disable;
@@ -83,6 +88,11 @@ assign rdata1_lt_rdata2 = ((aluop_i == `EXE_SLT_OP)) ?
                                                 : (rdata1 < rdata2);    //无符号比较
 
 assign rdata1_not = ~rdata1;
+
+// lw/sw
+assign aluop_o = aluop_i;
+assign mem_addr_o = rdata1 + {{16{inst_i[15]}}, inst_i[15:0]};
+assign reg2_o = rdata2;
 
 //----------  arithmetic 数据通路
 

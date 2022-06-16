@@ -7,7 +7,15 @@ module cpu(
     input [`RegBus]      rom_data_i,
 
     output               rom_ce_o,
-    output [`RegBus]     rom_addr_o
+    output [`RegBus]     rom_addr_o,
+
+    // ram
+	input  [`RegBus]           ram_data_i,
+	output [`RegBus]           ram_addr_o,
+	output [`RegBus]           ram_data_o,
+	output                     ram_we_o,
+	output [3:0]               ram_sel_o,
+	output [3:0]               ram_ce_o
 );
     //TODO ---------- IF
     wire [`RegBus]      pc_if;
@@ -86,6 +94,18 @@ module cpu(
     wire            id_branch_flag_o;
     wire [`RegBus]  branch_target_address;
 
+    // ram 
+    wire[`RegBus] id_inst_o;
+    wire[`RegBus] ex_inst_i;
+    wire[`AluOpBus] ex_aluop_o;
+	wire[`RegBus] ex_mem_addr_o;
+	wire[`RegBus] ex_reg1_o;
+	wire[`RegBus] ex_reg2_o;
+    wire[`AluOpBus] mem_aluop_i;
+	wire[`RegBus] mem_mem_addr_i;
+	wire[`RegBus] mem_reg1_i;
+	wire[`RegBus] mem_reg2_i;
+
     pc_reg pc0(
         .clk(clk),
         .rst(rst),
@@ -156,7 +176,11 @@ module cpu(
         .branch_target_address_o(branch_target_address),       
         .link_addr_o(id_link_address_o),
         
-        .is_in_delayslot_o(id_is_in_delayslot_o)     
+        .is_in_delayslot_o(id_is_in_delayslot_o),
+
+        //ram
+        .ex_aluop_i(ex_aluop_o),
+        .inst_o(id_inst_o)
     );
 
     regfile regfile0(
@@ -203,7 +227,11 @@ module cpu(
         .next_inst_in_delayslot_i(next_inst_in_delayslot_o),
         .ex_link_address(ex_link_address_i),
           .ex_is_in_delayslot(ex_is_in_delayslot_i),
-        .is_in_delayslot_o(is_in_delayslot_i)
+        .is_in_delayslot_o(is_in_delayslot_i),
+
+        // ram
+        .id_inst(id_inst_o),
+        .ex_inst(ex_inst_i)	
     );
 
     // ---------- hilo
@@ -263,7 +291,14 @@ module cpu(
 
         //jump
         .link_address_i(ex_link_address_i),
-        .is_in_delayslot_i(ex_is_in_delayslot_i)
+        .is_in_delayslot_i(ex_is_in_delayslot_i),
+
+        //ram
+        .inst_i(ex_inst_i),
+        .aluop_o(ex_aluop_o),
+		.mem_addr_o(ex_mem_addr_o),
+		.reg2_o(ex_reg2_o)
+
     );
 
     ex_mem ex_mem0(
@@ -289,7 +324,15 @@ module cpu(
         .mem_lo(mem_lo_i),
         .mem_whilo(mem_whilo_i),
         
-        .stall(stallSig)
+        .stall(stallSig),
+
+        //ram
+        .ex_aluop(ex_aluop_o),
+		.ex_mem_addr(ex_mem_addr_o),
+		.ex_reg2(ex_reg2_o),
+        .mem_aluop(mem_aluop_i),
+		.mem_mem_addr(mem_mem_addr_i),
+		.mem_reg2(mem_reg2_i)
     );
 
 
@@ -311,7 +354,20 @@ module cpu(
 
         .hi_o(mem_hi_o),
         .lo_o(mem_lo_o),
-        .whilo_o(mem_whilo_o)
+        .whilo_o(mem_whilo_o),
+        
+        //ram
+        .aluop_i(mem_aluop_i),
+		.mem_addr_i(mem_mem_addr_i),
+		.reg2_i(mem_reg2_i),
+
+        .mem_data_i(ram_data_i),
+
+        .mem_addr_o(ram_addr_o),
+		.mem_we_o(ram_we_o),
+		.mem_sel_o(ram_sel_o),
+		.mem_data_o(ram_data_o),
+		.mem_ce_o(ram_ce_o)	
     );
 
     mem_wb  mem_wb0(

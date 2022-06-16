@@ -23,7 +23,15 @@ module ex_mem(
     output reg [`RegBus]    mem_hi,
     output reg [`RegBus]    mem_lo,
 
-    input [5:0] stall
+    input [5:0] stall,
+
+    //------- lw/sw
+    input [`AluOpBus]   ex_aluop,
+    input [`RegBus]     ex_mem_addr,
+    input [`RegBus]     ex_reg2,
+    output reg [`AluOpBus] mem_aluop,
+    output reg [`RegBus]   mem_addr,
+    output reg [`RegBus]   mem_reg2
 );
 
 always @(posedge clk) begin
@@ -36,6 +44,10 @@ always @(posedge clk) begin
         mem_whilo   <=  `Disable;
         mem_hi      <=  `ZeroWord;
         mem_lo      <=  `ZeroWord;
+
+        mem_aluop   <= `EXE_NOP_OP;
+        mem_addr    <= `ZeroWord;
+        mem_reg2    <= `ZeroWord;
     end else if(stall[3] == `Enable && stall[4] == `Disable)  begin
         pc_o        <=  `ZeroWord;
         mem_rw      <=  `NOPRegAddr;
@@ -45,6 +57,10 @@ always @(posedge clk) begin
         mem_whilo   <=  `Disable;
         mem_hi      <=  `ZeroWord;
         mem_lo      <=  `ZeroWord;
+
+        mem_aluop   <= `EXE_NOP_OP;
+        mem_addr    <= `ZeroWord;
+        mem_reg2    <= `ZeroWord;
     end else if (stall[3] == `Disable) begin
         pc_o        <= pc_i;
         mem_rw      <= ex_rw;
@@ -54,6 +70,10 @@ always @(posedge clk) begin
         mem_whilo   <=  ex_whilo;
         mem_hi      <=  ex_hi;
         mem_lo      <=  ex_lo;
+
+        mem_aluop   <= ex_aluop;
+        mem_addr    <= ex_mem_addr;
+        mem_reg2    <= ex_reg2;
     end
 end
 

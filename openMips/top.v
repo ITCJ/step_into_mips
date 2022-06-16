@@ -6,6 +6,13 @@ module top(
     wire [`InstBus]         rom_data_i;
     wire                    rom_ce_o;
     wire [`InstAddrBus]     rom_addr_o;
+
+    wire             mem_we_i;
+    wire [`RegBus]   mem_addr_i;
+    wire [`RegBus]   mem_data_i;
+    wire [`RegBus]   mem_data_o;
+    wire [3:0]       mem_sel_i;  
+    wire             mem_ce_i;  
     cpu cpu0(
         .rst(rst), .clk(clk),
 
@@ -20,5 +27,18 @@ module top(
         .addr(rom_addr_o),
         
         .inst(rom_data_i)
+    );
+
+    data_ram data_ram0(
+        .clk(clk),
+
+        .we(mem_we_i),
+        .addr(mem_addr_i),
+        .sel(mem_sel_i),
+
+        .data_i(mem_data_i),
+        .data_o(mem_data_o),
+
+        .ce(mem_ce_i)        
     );
 endmodule 
