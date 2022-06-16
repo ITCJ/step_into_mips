@@ -12,7 +12,7 @@ make: *** No rule to make target '/home/tcj_wsl/step_into_mips/tools/difftest.mk
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jun 11 16:23:40 2022
+# Make data base, printed on Thu Jun 16 15:58:16 2022
 
 # Variables
 
@@ -128,7 +128,7 @@ ASTRA_SDK_INCLUDE = /home/tcj_wsl/SLAM/AstraSDK-v2.1.3-94bca0f52e-20210611T02331
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-4a1587e4-25ce-4f55-a157-77ed82e108ba.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-c56c2190-b698-4cf4-926b-287a9b0bdb9f.sock
 # makefile (from '/home/tcj_wsl/ysyx-fishing-fishing-fishing/nemu/Makefile', line 35)
 LDFLAGS = $(CFLAGS_BUILD)
 # default
@@ -613,6 +613,6 @@ run-env:
 # strcache performance: lookups = 97 / hit rate = 62%
 # hash-table stats:
 # Load=36/8192=0%, Rehash=0, Collisions=2/97=2%
-# Finished Make data base on Sat Jun 11 16:23:40 2022
+# Finished Make data base on Thu Jun 16 15:58:16 2022
 
  

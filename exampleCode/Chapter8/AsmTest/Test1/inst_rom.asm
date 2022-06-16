@@ -12,7 +12,7 @@ Disassembly of section .text:
 	...
   20:	34010003 	li	at,0x3
   24:	0c000010 	jal	40 <_start+0x40>
-  28:	03e1001a 	div	zero,ra,at
+  28:	73e10002 	mul	zero,ra,at
   2c:	34010005 	li	at,0x5
   30:	34010006 	li	at,0x6
   34:	08000018 	j	60 <_start+0x60>
