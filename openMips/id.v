@@ -42,7 +42,11 @@ module id(
     output reg [`RegBus]    branch_target_address_o,
     output reg              is_in_delayslot_o,
     output reg [`RegBus]    link_addr_o,
-    output reg              next_inst_in_delayslot_o
+    output reg              next_inst_in_delayslot_o,
+
+    //---------- sw/lw
+    output [`RegBus]        inst_o
+
 );
 
 assign stall = `Disable;
@@ -76,6 +80,10 @@ assign imm_sll2_signedext = { {14{inst_i[15]}},
                                 inst_i[15:0], 
                                 2'b00 };  
 assign stallreq = `Disable;
+
+
+// load store
+assign inst_o = inst_i;
 
 //译码 op seg -> aluop
 always @(*) begin
@@ -737,6 +745,31 @@ always @(*) begin
                 
                 instvalid <= `Enable;    
                 end
+            
+            `EXE_LW:            begin
+                aluop_o <= `EXE_LW_OP;
+                alusel_o <= `EXE_RES_LOAD_STORE;
+                
+                wreg_o <= `Enable;
+                wd_o <= inst_i[20:16];
+                
+                reg1_read_o <= `Enable;
+                reg2_read_o <= `Disable;          
+                
+                instvalid <= `Enable;    
+                end
+
+            `EXE_SW:            begin
+                wreg_o <= `Disable;
+                
+                aluop_o <= `EXE_SW_OP;
+                alusel_o <= `EXE_RES_LOAD_STORE; 
+                
+                reg1_read_o <= `Enable;
+                reg2_read_o <= `Enable;
+
+                instvalid <= `Enable;    
+                end
 
             `EXE_REGIMM_INST:        begin
                 case (op4)
@@ -918,7 +951,7 @@ always @ (*) begin
     if(rst == `Enable) begin
         is_in_delayslot_o <= `Disable;
     end else begin
-        is_in_delayslot_o <= is_in_delayslot_i;		
+        is_in_delayslot_o <= is_in_delayslot_i;        
     end
 end
 

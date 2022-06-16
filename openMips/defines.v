@@ -65,6 +65,9 @@
 `define EXE_BLTZAL      5'b10000
 `define EXE_BNE         6'b000101
 
+`define EXE_LW          6'b100011
+`define EXE_SW          6'b101011
+
 `define EXE_NOP     6'b000000
 `define SSNOP 32'b00000000000000000000000001000000
 
@@ -126,6 +129,9 @@
 `define EXE_BLTZAL_OP   8'b01001010
 `define EXE_BNE_OP      8'b01010010
 
+`define EXE_LW_OP  8'b11100011
+`define EXE_SW_OP  8'b11101011
+
 `define EXE_NOP_OP      8'b00000000
 
 //AluSel 结果选择
@@ -135,6 +141,7 @@
 `define EXE_RES_ARITHMETIC  3'b100	
 `define EXE_RES_MUL         3'b101
 `define EXE_RES_JUMP_BRANCH 3'b110
+`define EXE_RES_LOAD_STORE  3'b111
 
 `define EXE_RES_NOP         3'b000
 
