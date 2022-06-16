@@ -21,7 +21,9 @@ module ex_mem(
 
     output reg              mem_whilo,
     output reg [`RegBus]    mem_hi,
-    output reg [`RegBus]    mem_lo
+    output reg [`RegBus]    mem_lo,
+
+    input [5:0] stall
 );
 
 always @(posedge clk) begin
@@ -34,7 +36,16 @@ always @(posedge clk) begin
         mem_whilo   <=  `Disable;
         mem_hi      <=  `ZeroWord;
         mem_lo      <=  `ZeroWord;
-    end else begin
+    end else if(stall[3] == `Enable && stall[4] == `Disable)  begin
+        pc_o        <=  `ZeroWord;
+        mem_rw      <=  `NOPRegAddr;
+        mem_wreg    <=  `Disable;
+        mem_wdata   <=  `ZeroWord;
+
+        mem_whilo   <=  `Disable;
+        mem_hi      <=  `ZeroWord;
+        mem_lo      <=  `ZeroWord;
+    end else if (stall[3] == `Disable) begin
         pc_o        <= pc_i;
         mem_rw      <= ex_rw;
         mem_wreg    <= ex_wreg;

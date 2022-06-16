@@ -8,7 +8,11 @@ module pc_reg(
     output reg ce,
 
     // -- STALL
-    input stall
+    input [5:0] stall,
+
+    // --- branch jump
+    input                   branch_flag_i,
+    input [`InstAddrBus]    branch_target_address_i
     );
 
 
@@ -23,10 +27,14 @@ module pc_reg(
     always @(posedge clk) begin
        if(ce == `Disable) begin
            pc <= `ZeroWord;
-       end else if(stall == `Enable) begin
-           pc <= pc;
+       end else if(stall[0] == `Disable) begin
+           if (branch_flag_i == `Enable) begin
+               pc <= branch_target_address_i;
+           end else begin
+                pc <= pc + 4'h4;    
+           end
        end else begin
-           pc <= pc + 4'h4;
+           pc <= pc;
        end
     end
 

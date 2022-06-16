@@ -1,7 +1,7 @@
 `include "defines.v"
 
 module ex(
-    input rst,
+    input rst, clk,
 
     input [`AluOpBus]       aluop_i,
     input [`AluSelBus]      alusel_i,
@@ -29,8 +29,12 @@ module ex(
     // ---------- hilo 
     output reg                   whilo_o,
     output reg [`RegBus]         hi_o,
-    output reg [`RegBus]         lo_o
+    output reg [`RegBus]         lo_o,
+
+    output                      stall
 );
+
+assign stall = `Disable;
 
 reg [`RegBus]   logicResult;
 reg [`RegBus]   shiftResult;
@@ -77,52 +81,52 @@ assign rdata1_not = ~rdata1;
 
 //----------  arithmetic 数据通路
 
-	always @ (*) begin
-		if(rst == `Enable) begin
-			ariResult <= `ZeroWord;
-		end else begin
-			case (aluop_i)
-				`EXE_SLT_OP, `EXE_SLTU_OP:		begin
-					ariResult <= rdata1_lt_rdata2 ;
-				end
-				`EXE_ADD_OP, `EXE_ADDU_OP, `EXE_ADDI_OP, `EXE_ADDIU_OP:		begin
-					ariResult <= result_sum; 
-				end
-				`EXE_SUB_OP, `EXE_SUBU_OP:		begin
-					ariResult <= result_sum; 
-				end		
-				`EXE_CLZ_OP:		begin
-					ariResult <= rdata1[31] ? 0 : rdata1[30] ? 1 : rdata1[29] ? 2 :
-													 rdata1[28] ? 3 : rdata1[27] ? 4 : rdata1[26] ? 5 :
-													 rdata1[25] ? 6 : rdata1[24] ? 7 : rdata1[23] ? 8 : 
-													 rdata1[22] ? 9 : rdata1[21] ? 10 : rdata1[20] ? 11 :
-													 rdata1[19] ? 12 : rdata1[18] ? 13 : rdata1[17] ? 14 : 
-													 rdata1[16] ? 15 : rdata1[15] ? 16 : rdata1[14] ? 17 : 
-													 rdata1[13] ? 18 : rdata1[12] ? 19 : rdata1[11] ? 20 :
-													 rdata1[10] ? 21 : rdata1[9] ? 22 : rdata1[8] ? 23 : 
-													 rdata1[7] ? 24 : rdata1[6] ? 25 : rdata1[5] ? 26 : 
-													 rdata1[4] ? 27 : rdata1[3] ? 28 : rdata1[2] ? 29 : 
-													 rdata1[1] ? 30 : rdata1[0] ? 31 : 32 ;
-				end
-				`EXE_CLO_OP:		begin
-					ariResult <= (rdata1_not[31] ? 0 : rdata1_not[30] ? 1 : rdata1_not[29] ? 2 :
-													 rdata1_not[28] ? 3 : rdata1_not[27] ? 4 : rdata1_not[26] ? 5 :
-													 rdata1_not[25] ? 6 : rdata1_not[24] ? 7 : rdata1_not[23] ? 8 : 
-													 rdata1_not[22] ? 9 : rdata1_not[21] ? 10 : rdata1_not[20] ? 11 :
-													 rdata1_not[19] ? 12 : rdata1_not[18] ? 13 : rdata1_not[17] ? 14 : 
-													 rdata1_not[16] ? 15 : rdata1_not[15] ? 16 : rdata1_not[14] ? 17 : 
-													 rdata1_not[13] ? 18 : rdata1_not[12] ? 19 : rdata1_not[11] ? 20 :
-													 rdata1_not[10] ? 21 : rdata1_not[9] ? 22 : rdata1_not[8] ? 23 : 
-													 rdata1_not[7] ? 24 : rdata1_not[6] ? 25 : rdata1_not[5] ? 26 : 
-													 rdata1_not[4] ? 27 : rdata1_not[3] ? 28 : rdata1_not[2] ? 29 : 
-													 rdata1_not[1] ? 30 : rdata1_not[0] ? 31 : 32) ;
-				end
-				default:				begin
-					ariResult <= `ZeroWord;
-				end
-			endcase
-		end
-	end
+    always @ (*) begin
+        if(rst == `Enable) begin
+            ariResult <= `ZeroWord;
+        end else begin
+            case (aluop_i)
+                `EXE_SLT_OP, `EXE_SLTU_OP:        begin
+                    ariResult <= rdata1_lt_rdata2 ;
+                end
+                `EXE_ADD_OP, `EXE_ADDU_OP, `EXE_ADDI_OP, `EXE_ADDIU_OP:        begin
+                    ariResult <= result_sum; 
+                end
+                `EXE_SUB_OP, `EXE_SUBU_OP:        begin
+                    ariResult <= result_sum; 
+                end        
+                `EXE_CLZ_OP:        begin
+                    ariResult <= rdata1[31] ? 0 : rdata1[30] ? 1 : rdata1[29] ? 2 :
+                                                     rdata1[28] ? 3 : rdata1[27] ? 4 : rdata1[26] ? 5 :
+                                                     rdata1[25] ? 6 : rdata1[24] ? 7 : rdata1[23] ? 8 : 
+                                                     rdata1[22] ? 9 : rdata1[21] ? 10 : rdata1[20] ? 11 :
+                                                     rdata1[19] ? 12 : rdata1[18] ? 13 : rdata1[17] ? 14 : 
+                                                     rdata1[16] ? 15 : rdata1[15] ? 16 : rdata1[14] ? 17 : 
+                                                     rdata1[13] ? 18 : rdata1[12] ? 19 : rdata1[11] ? 20 :
+                                                     rdata1[10] ? 21 : rdata1[9] ? 22 : rdata1[8] ? 23 : 
+                                                     rdata1[7] ? 24 : rdata1[6] ? 25 : rdata1[5] ? 26 : 
+                                                     rdata1[4] ? 27 : rdata1[3] ? 28 : rdata1[2] ? 29 : 
+                                                     rdata1[1] ? 30 : rdata1[0] ? 31 : 32 ;
+                end
+                `EXE_CLO_OP:        begin
+                    ariResult <= (rdata1_not[31] ? 0 : rdata1_not[30] ? 1 : rdata1_not[29] ? 2 :
+                                                     rdata1_not[28] ? 3 : rdata1_not[27] ? 4 : rdata1_not[26] ? 5 :
+                                                     rdata1_not[25] ? 6 : rdata1_not[24] ? 7 : rdata1_not[23] ? 8 : 
+                                                     rdata1_not[22] ? 9 : rdata1_not[21] ? 10 : rdata1_not[20] ? 11 :
+                                                     rdata1_not[19] ? 12 : rdata1_not[18] ? 13 : rdata1_not[17] ? 14 : 
+                                                     rdata1_not[16] ? 15 : rdata1_not[15] ? 16 : rdata1_not[14] ? 17 : 
+                                                     rdata1_not[13] ? 18 : rdata1_not[12] ? 19 : rdata1_not[11] ? 20 :
+                                                     rdata1_not[10] ? 21 : rdata1_not[9] ? 22 : rdata1_not[8] ? 23 : 
+                                                     rdata1_not[7] ? 24 : rdata1_not[6] ? 25 : rdata1_not[5] ? 26 : 
+                                                     rdata1_not[4] ? 27 : rdata1_not[3] ? 28 : rdata1_not[2] ? 29 : 
+                                                     rdata1_not[1] ? 30 : rdata1_not[0] ? 31 : 32) ;
+                end
+                default:                begin
+                    ariResult <= `ZeroWord;
+                end
+            endcase
+        end
+    end
 
 //---------- mul 数据预处理
 
@@ -132,9 +136,15 @@ assign opdata1_mult = (((aluop_i == `EXE_MUL_OP) || (aluop_i == `EXE_MULT_OP))
                                                 && (rdata1[31] == 1'b1)) ? (~rdata1 + 1) : rdata1;
 
 assign opdata2_mult = (((aluop_i == `EXE_MUL_OP) || (aluop_i == `EXE_MULT_OP))
-                                                && (rdata2[31] == 1'b1)) ? (~rdata2 + 1) : rdata2;		
+                                                && (rdata2[31] == 1'b1)) ? (~rdata2 + 1) : rdata2;        
 
 //自动综合乘法器
+// mult_ex_hilo_0 your_instance_name (
+//   .CLK(clk),  // input wire CLK
+//   .A(opdata1_mult),      // input wire [31 : 0] A
+//   .B(opdata2_mult),      // input wire [31 : 0] B
+//   .P(hilo_temp)      // output wire [63 : 0] P
+// );
 assign hilo_temp = opdata1_mult * opdata2_mult;
 
 always @ (*) begin

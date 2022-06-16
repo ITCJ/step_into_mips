@@ -31,8 +31,21 @@ module id(
     output reg [`RegAddrBus]    reg2_addr_o,
     output reg                  reg2_read_o,
     output reg [`RegAddrBus]    reg1_addr_o,
-    output reg                  reg1_read_o
+    output reg                  reg1_read_o,
+
+    output                      stall,
+
+    //---------- jump
+    input                   is_in_delayslot_i,
+
+    output reg              branch_flag_o,
+    output reg [`RegBus]    branch_target_address_o,
+    output reg              is_in_delayslot_o,
+    output reg [`RegBus]    link_addr_o,
+    output reg              next_inst_in_delayslot_o
 );
+
+assign stall = `Disable;
 
 //对输入的指令分段
 wire [5:0] op   =   inst_i[31:26];
@@ -52,6 +65,17 @@ reg [`RegBus]        imm;
 
 reg instvalid;
 
+// jump
+wire [`RegBus]      pc_plus_8;
+wire [`RegBus]      pc_plus_4;
+wire [`RegBus]      imm_sll2_signedext;
+
+assign pc_plus_8 = pc_i + 8;
+assign pc_plus_4 = pc_i + 4;
+assign imm_sll2_signedext = { {14{inst_i[15]}}, 
+                                inst_i[15:0], 
+                                2'b00 };  
+assign stallreq = `Disable;
 
 //译码 op seg -> aluop
 always @(*) begin
@@ -70,6 +94,11 @@ always @(*) begin
         reg2_addr_o <= `NOPRegAddr;
 
         imm         <= `ZeroWord;
+
+        link_addr_o                 <= `ZeroWord;
+        branch_target_address_o     <= `ZeroWord;
+        branch_flag_o               <= `Disable;
+        next_inst_in_delayslot_o    <= `Disable;	
     end else begin
         //初始化状态，可以避免没用的端口出现错误内容。综合在电路上是二级mux
         //以往这部分内容我写在case中，第一个分支之前
@@ -88,6 +117,10 @@ always @(*) begin
 
         imm         <= `ZeroWord;
 
+        link_addr_o                 <= `ZeroWord;
+        branch_target_address_o     <= `ZeroWord;
+        branch_flag_o               <= `Disable;	
+        next_inst_in_delayslot_o    <= `Disable;
         case (op)
             // TODO special 指令
             `EXE_SPECIAL_INST: begin
@@ -311,7 +344,7 @@ always @(*) begin
                                 reg1_read_o <= `Enable;
                                 reg2_read_o <= `Enable;
 
-                                instvalid <= `Enable;	
+                                instvalid <= `Enable;   
                             end
 
                             `EXE_ADDU: begin
@@ -320,7 +353,7 @@ always @(*) begin
                                 alusel_o <= `EXE_RES_ARITHMETIC;
                                 reg1_read_o <= `Enable;
                                 reg2_read_o <= `Enable;
-                                instvalid <= `Enable;	
+                                instvalid <= `Enable;   
                             end
                             `EXE_SUB: begin
                                 aluop_o <= `EXE_SUB_OP;
@@ -331,7 +364,7 @@ always @(*) begin
                                 reg1_read_o <= `Enable;
                                 reg2_read_o <= `Enable;
 
-                                instvalid <= `Enable;	
+                                instvalid <= `Enable;   
                             end
                             `EXE_SUBU: begin
                                 aluop_o <= `EXE_SUBU_OP;
@@ -342,7 +375,7 @@ always @(*) begin
                                 reg1_read_o <= `Enable;
                                 reg2_read_o <= `Enable;
 
-                                instvalid <= `Enable;	
+                                instvalid <= `Enable;   
                             end
                             `EXE_MULT: begin
                                 wreg_o <= `Disable;
@@ -352,7 +385,7 @@ always @(*) begin
                                 reg1_read_o <= `Enable;
                                 reg2_read_o <= `Enable;
 
-                                instvalid <= `Enable;	
+                                instvalid <= `Enable;   
                             end
                             `EXE_MULTU: begin
                                 aluop_o <= `EXE_MULTU_OP;
@@ -362,8 +395,38 @@ always @(*) begin
                                 reg1_read_o <= `Enable;
                                 reg2_read_o <= `Enable;
 
-                                instvalid <= `Enable;	
+                                instvalid <= `Enable;   
                             end
+
+                            `EXE_JR: begin
+                                aluop_o     <= `EXE_JR_OP;
+                                alusel_o    <= `EXE_RES_JUMP_BRANCH;
+                                
+                                wreg_o      <= `Disable;
+                                
+                                reg1_read_o <= 1'b1;
+                                reg2_read_o <= 1'b0;
+                                
+                                link_addr_o <= `ZeroWord;
+                                
+                                branch_target_address_o <= reg1_o;
+                                branch_flag_o           <= `Branch;
+                       
+                                next_inst_in_delayslot_o <= `Enable;
+                                instvalid                <= `Enable;    
+                            end
+                            `EXE_JALR: begin
+                                wreg_o <= `WriteEnable;     aluop_o <= `EXE_JALR_OP;
+                                alusel_o <= `EXE_RES_JUMP_BRANCH;   reg1_read_o <= 1'b1;    reg2_read_o <= 1'b0;
+                                wd_o <= inst_i[15:11];
+                                link_addr_o <= pc_plus_8;
+                                
+                                branch_target_address_o <= reg1_o;
+                                branch_flag_o <= `Branch;
+                       
+                                next_inst_in_delayslot_o <= `InDelaySlot;
+                                instvalid <= `InstValid;    
+                                end 
                         default: begin
                                 
                             end
@@ -378,7 +441,7 @@ always @(*) begin
             //TODO special2
             `EXE_SPECIAL2_INST: begin
                 case ( op3 )
-                    `EXE_CLZ:		begin
+                    `EXE_CLZ:       begin
                         aluop_o <= `EXE_CLZ_OP;
                         alusel_o <= `EXE_RES_ARITHMETIC;
 
@@ -545,7 +608,7 @@ always @(*) begin
                 reg2_read_o <= `Disable;
                 
                 imm <= {{16{inst_i[15]}}, inst_i[15:0]};
-                instvalid <= `Enable;	
+                instvalid <= `Enable;   
             end
 
             default: 

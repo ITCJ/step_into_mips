@@ -20,7 +20,9 @@ module mem_wb(
 
     output reg              whilo_o,
     output reg [`RegBus]    hi_o,
-    output reg [`RegBus]    lo_o
+    output reg [`RegBus]    lo_o,
+
+    input [5:0] stall
 );
 
 always @(posedge clk) begin
@@ -33,7 +35,16 @@ always @(posedge clk) begin
         whilo_o <= `Disable;
         hi_o    <= `ZeroWord;
         lo_o    <= `ZeroWord;
-    end else begin
+    end else if(stall[4] == `Enable && stall[5] == `Disable) begin
+        pc_o    <=  `ZeroWord;
+        rw_o    <= `NOPRegAddr;
+        wreg_o  <= `Disable;
+        wdata_o <= `ZeroWord;
+
+        whilo_o <= `Disable;
+        hi_o    <= `ZeroWord;
+        lo_o    <= `ZeroWord;
+    end else if(stall[4] == `Disable) begin
         pc_o        <= pc_i;
         rw_o        <= rw_i;
         wreg_o      <= wreg_i;

@@ -21,7 +21,9 @@ module id_ex(
     output reg [`RegBus]     ex_rdata1,
     output reg [`RegBus]     ex_rdata2,
     output reg [`RegAddrBus] ex_rw,
-    output reg               ex_wreg
+    output reg               ex_wreg,
+
+    input [5:0] stall
 
 );
 
@@ -34,7 +36,15 @@ module id_ex(
             ex_rdata2   <=  `ZeroWord;
             ex_rw       <=  `ZeroWord;
             ex_wreg     <=  `Disable;
-        end else begin
+        end else if(stall[2] == `Enable && stall[3] == `Disable) begin
+            pc_o        <=  `ZeroWord;
+            ex_aluop    <=  `EXE_NOP_OP;
+            ex_alusel   <=  `EXE_RES_NOP;
+            ex_rdata1   <=  `ZeroWord;
+            ex_rdata2   <=  `ZeroWord;
+            ex_rw       <=  `ZeroWord;
+            ex_wreg     <=  `Disable;
+        end else if(stall[2] == `Disable) begin
             pc_o        <=  pc_i;
             ex_aluop    <=  id_aluop;
             ex_alusel   <=  id_alusel;

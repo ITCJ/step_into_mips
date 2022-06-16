@@ -68,12 +68,18 @@ module cpu(
     //TODO ---------- MEM/WB
     wire [`InstAddrBus] wb_pc_i;
 
+    //TODO ---------- stall
+    wire [5:0]  stallSig;
+    wire stall_from_id;
+    wire stall_from_ex;
 
     pc_reg pc0(
         .clk(clk),
         .rst(rst),
         .pc(pc_if),
-        .ce(rom_ce_o)
+        .ce(rom_ce_o),
+
+        .stall(stallSig)
     );
 
     //需要例化rom IP用于输入指令进行测试
@@ -87,7 +93,9 @@ module cpu(
         .if_inst(rom_data_i),
 
         .id_pc(id_pc_i),
-        .id_inst(id_inst_i)
+        .id_inst(id_inst_i),
+
+        .stall(stallSig)
     );
 
     id id0(
@@ -121,7 +129,9 @@ module cpu(
         .ex_wdata_i(ex_wdata_o),
         .mem_wreg_i(mem_wreg_i),
         .mem_wd_i(mem_rw_i),
-        .mem_wdata_i(mem_wdata_i)
+        .mem_wdata_i(mem_wdata_i),
+
+        .stall(stall_from_id)
     );
 
     regfile regfile0(
@@ -158,7 +168,9 @@ module cpu(
         .ex_rdata1(ex_rdata1_i),
         .ex_rdata2(ex_rdata2_i),
         .ex_rw(ex_rw_i),
-        .ex_wreg(ex_wreg_i)
+        .ex_wreg(ex_wreg_i),
+
+        .stall(stallSig)
     );
 
     // ---------- hilo
@@ -187,7 +199,7 @@ module cpu(
     wire            wb_whilo_i;
 
     ex ex0(
-        .rst(rst),
+        .rst(rst), .clk(clk),
 
         .aluop_i(ex_aluop_i),
         .alusel_i(ex_alusel_i),
@@ -212,7 +224,9 @@ module cpu(
 
         .whilo_o(ex_whilo_o),
         .hi_o(ex_hi_o),
-        .lo_o(ex_lo_o)
+        .lo_o(ex_lo_o),
+
+        .stall(stall_from_ex)
     );
 
     ex_mem ex_mem0(
@@ -236,7 +250,9 @@ module cpu(
 
 		.mem_hi(mem_hi_i),
 		.mem_lo(mem_lo_i),
-		.mem_whilo(mem_whilo_i)		
+		.mem_whilo(mem_whilo_i),
+        
+        .stall(stallSig)
     );
 
 
@@ -280,7 +296,9 @@ module cpu(
 		.whilo_i(mem_whilo_o),
 		.hi_o(wb_hi_i),
 		.lo_o(wb_lo_i),
-		.whilo_o(wb_whilo_i)	
+		.whilo_o(wb_whilo_i),
+
+        .stall(stallSig)	
     );
 
     hilo_reg hilo_reg0(
@@ -292,6 +310,14 @@ module cpu(
 
         .hi_o(hi),
         .lo_o(lo)
+    );
+
+    ctrl ctrl(
+        .rst(rst),
+        .stall_from_id(stall_from_id),
+        .stall_fron_ex(stall_from_ex),
+
+        .stallSig(stallSig)
     );
 
 endmodule 
